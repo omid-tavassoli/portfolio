@@ -930,6 +930,12 @@ mqt.innerHTML += mqt.innerHTML;
     };
     const L = () => (window.SITE_LANG || 'en').startsWith('de') ? 'de' : 'en';
     const tt = () => TT[L()];
+    const ROUTES = {
+        backend: ['p-bookit', 'p-fintrack', 'skills', 'journey', 'contact'],
+        ai: ['p-fintrack', 'p-edufund', 'p-uiagent', 'journey', 'contact'],
+        fullstack: ['about', 'p-fintrack', 'p-bookit', 'p-edufund', 'skills', 'contact'],
+        curious: ['about', 'projects', 'journey', 'contact']
+    };
 
     /* ── state ── */
     const T = { st: 'idle', role: null, route: [], i: 0, detour: null, back: null, q: 0, ctrl: null, hlEl: null };
