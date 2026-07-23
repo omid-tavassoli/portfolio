@@ -1,0 +1,82 @@
+{
+  "identity": {
+    "name": "Omid Tavassoli",
+    "role": "Computer Science student (B.Sc.) at TU Darmstadt, since October 2023",
+    "location": "Darmstadt, Germany",
+    "seeking": "Werkstudent backend/fullstack roles in the Frankfurt / Rhein-Main area",
+    "email": "omidtavassoli99@gmail.com",
+    "links": {
+      "github": "https://github.com/omid-tavassoli",
+      "linkedin": "https://www.linkedin.com/in/omid-tavassoli-b2758b307",
+      "portfolio": "https://portfolio.omidtavassoli.dev"
+    },
+    "languages": "German (C1), English, Persian"
+  },
+  "education": [
+    { "what": "B.Sc. Computer Science, TU Darmstadt", "when": "Oct 2023 - present", "topics": "software engineering, system architecture, AI integration, parallel programming, IT security" },
+    { "what": "Studienkolleg (university preparatory programme), Computertechnik, Universität Kassel", "when": "Oct 2022 - Jul 2023" }
+  ],
+  "work": [
+    { "what": "Service Lead & Staff, Biergarten Darmstadt", "when": "2024 - present", "notes": "team coordination under time pressure, structured task delegation, leadership responsibility" },
+    { "what": "Praktikum project for [ui!] Urban Mobility Innovations (UI GmbH)", "notes": "built the KI-Agent platform, see projects" }
+  ],
+  "skills": {
+    "languages": ["Python", "Java", "JavaScript", "PHP", "C++", "SQL"],
+    "backend": ["Spring Boot 3", "FastAPI", "Laravel 11", "Node.js", "REST APIs", "JWT", "RBAC", "OAuth2", "Sanctum"],
+    "frontend": ["React", "Next.js 14", "HTML5/CSS3", "AJAX"],
+    "databases": ["PostgreSQL", "MySQL", "Redis", "SQLite", "SQLAlchemy", "Flyway"],
+    "devops_ai": ["Docker", "Nginx", "Linux (Ubuntu/Debian)", "Git", "Gemini API", "Shell scripting", "Hetzner VPS self-hosting"],
+    "not_claimed": "Kubernetes, AWS/GCP/Azure certifications, and anything not listed above are NOT in his stack. If asked, say so honestly and mention the nearest real skill (e.g. Docker + Nginx on a self-managed VPS instead of Kubernetes)."
+  },
+  "projects": {
+    "p-fintrack": {
+      "name": "FinTrack",
+      "status": "live in production at https://fintrack.omidtavassoli.dev",
+      "repo": "https://github.com/omid-tavassoli/fintrack",
+      "stack": ["Spring Boot 3", "PostgreSQL", "Flyway", "Next.js 14", "Gemini 2.5 Flash", "Docker", "Nginx", "JWT", "Hetzner VPS"],
+      "features": [
+        "Gemini Vision extracts transactions from uploaded bank-statement PDFs",
+        "two-stage categorization: deterministic rule tables first, Gemini fallback for unknowns",
+        "z-score anomaly detection flags unusual spending",
+        "natural-language query engine over the user's financial data",
+        "analytics dashboard, budget tracking, JWT auth"
+      ]
+    },
+    "p-bookit": {
+      "name": "BookIT",
+      "status": "live in production at https://bookit.omidtavassoli.dev",
+      "repo": "https://github.com/omid-tavassoli/bookit",
+      "stack": ["Laravel 11", "PostgreSQL", "Redis", "Next.js 14", "Sanctum", "Docker", "Nginx", "Hetzner VPS"],
+      "features": [
+        "PostgreSQL advisory locks prevent double-booking under concurrent requests",
+        "Sanctum authentication",
+        "Redis caching, queue-based e-mail sending"
+      ]
+    },
+    "p-uiagent": {
+      "name": "KI-Agent Platform for [ui!] Urban Mobility Innovations",
+      "status": "built during Praktikum; code public, not deployed yet",
+      "repo": "https://github.com/omid-tavassoli/TeamProject-KiAgent",
+      "stack": ["React", "FastAPI", "PostgreSQL", "Docker", "JWT", "RBAC"],
+      "features": [
+        "scalable architecture for analysing urban mobility data",
+        "strict separation of service and database layers",
+        "secure auth flows with JWT and RBAC for complex user access control"
+      ]
+    },
+    "p-edufund": {
+      "name": "EduFund",
+      "status": "deployed prototype at https://edufund.omidtavassoli.dev",
+      "context": "built in an AI-entrepreneurship course: one semester to go from problem to AI product to business model",
+      "features": [
+        "helps students in Germany discover funding programmes (Foerderungen)",
+        "full UI plus a working Gemini-powered advisor chat",
+        "honestly labelled a prototype: the agentic apply-assistance is concept stage"
+      ]
+    }
+  },
+  "meta": {
+    "production_note": "FinTrack and BookIT run on Omid's own Hetzner VPS with Docker and Nginx — he deploys and operates what he builds.",
+    "this_tour": "This guided tour itself is one of his projects: scripted tour engine, live grounded Q&A (this assistant), FastAPI backend with rate limiting and a server-side action whitelist."
+  }
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omid Tavassoli — Software Developer</title>
+    <meta name="description" content="Omid Tavassoli — Computer Science student at TU Darmstadt building secure backend systems, AI integrations, and full-stack web apps.">
+    <meta name="author" content="Omid Tavassoli">
+    <meta name="theme-color" content="#0a192f">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Omid Tavassoli — Software Developer">
+    <meta property="og:description" content="Backend systems, AI integration, and IT security — portfolio of a CS student at TU Darmstadt.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a192f'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='26' font-weight='bold' text-anchor='middle' fill='%2364ffda'%3EOT%3C/text%3E%3C/svg%3E">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+
+<!-- ══════════════════════ NAVBAR ══════════════════════ -->
+<nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#hero">OT.</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="nav">
+            <ul class="navbar-nav gap-1">
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+                <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section id="hero">
+    <div class="container">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-7">
+                <p class="hero-tag">Hi, my name is</p>
+                <h1 class="hero-name">Omid Tavassoli.</h1>
+                <div class="hero-role">
+                    I build <span class="typed" id="typed"></span><span class="cursor">|</span>
+                </div>
+                <p class="hero-bio">
+                    Computer Science student at TU Darmstadt and aspiring software developer.
+                    Focused on backend systems, AI integration, and IT security — building secure,
+                    scalable solutions that make a difference.
+                </p>
+                <a href="#contact" class="btn-outline-accent">Get In Touch</a>
+            </div>
+            <div class="col-lg-5 text-center">
+                <div class="hero-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ ABOUT ══════════════════════ -->
+<section id="about">
+    <div class="container">
+        <h2 class="section-title reveal">
+            <span class="section-num">01.</span> About Me
+        </h2>
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-8">
+                <p class="about-text mb-3 reveal">
+                    I'm a <em>Computer Science student at TU Darmstadt</em> with a passion for crafting efficient,
+                    secure, and scalable software. My work sits at the intersection of
+                    <em>backend engineering</em>, <em>AI implementation</em>, and <em>IT security</em>.
+                </p>
+                <p class="about-text mb-3 reveal reveal-delay-1">
+                    I've shipped real-world software including a scalable <em>AI agent platform</em> for urban
+                    mobility data analysis (React + FastAPI + PostgreSQL), modern <em>full-stack SPAs</em> with
+                    real-time data feeds, and a custom <em>modular CMS</em> with a responsive admin interface.
+                </p>
+                <p class="about-text reveal reveal-delay-2">
+                    Outside of engineering, I lead a service team at a restaurant — sharpening
+                    <em>coordination under pressure</em>, structured organisation, and <em>team responsibility</em>.
+                </p>
+            </div>
+            <div class="col-lg-4 reveal reveal-delay-3">
+                <div class="info-card">
+                    <h6>// Quick Info</h6>
+                    <div class="info-row"><i class="bi bi-geo-alt-fill"></i> Darmstadt, Germany</div>
+                    <div class="info-row"><i class="bi bi-envelope-fill"></i> omidtavassoli99@gmail.com</div>
+                    <div class="info-row"><i class="bi bi-telephone-fill"></i> +49 178 7565660</div>
+                    <div class="info-row"><i class="bi bi-mortarboard-fill"></i> B.Sc. Computer Science</div>
+                    <div class="info-row"><i class="bi bi-check-circle-fill"></i> Open to opportunities</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ SKILLS ══════════════════════ -->
+<section id="skills">
+    <div class="container">
+        <h2 class="section-title reveal">
+            <span class="section-num">02.</span> Technical Skills
+        </h2>
+        <div class="row g-4">
+            <div class="col-sm-6 col-lg-3 reveal">
+                <div class="skill-card">
+                    <h6><i class="bi bi-code-slash"></i> Languages</h6>
+                    <span class="tag">Python</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">PHP</span>
+                    <span class="tag">Java</span>
+                    <span class="tag">C++</span>
+                    <span class="tag">SQL</span>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 reveal reveal-delay-1">
+                <div class="skill-card">
+                    <h6><i class="bi bi-shield-lock"></i> Web &amp; Security</h6>
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">REST API</span>
+                    <span class="tag">JWT</span>
+                    <span class="tag">RBAC</span>
+                    <span class="tag">OAuth2</span>
+                    <span class="tag">AJAX</span>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 reveal reveal-delay-2">
+                <div class="skill-card">
+                    <h6><i class="bi bi-database"></i> Databases</h6>
+                    <span class="tag">PostgreSQL</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">SQLite</span>
+                    <span class="tag">SQLAlchemy</span>
+                    <span class="tag">Redis</span>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 reveal reveal-delay-3">
+                <div class="skill-card">
+                    <h6><i class="bi bi-tools"></i> DevOps &amp; Tools</h6>
+                    <span class="tag">Docker</span>
+                    <span class="tag">Git</span>
+                    <span class="tag">Linux</span>
+                    <span class="tag">Apache</span>
+                    <span class="tag">Shell Scripting</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ PROJECTS ══════════════════════ -->
+<section id="projects">
+    <div class="container">
+        <h2 class="section-title reveal">
+            <span class="section-num">03.</span> Projects
+        </h2>
+        <div class="row g-4">
+            <div class="col-lg-4 reveal">
+                <div class="project-card">
+                    <div class="project-icon"><i class="bi bi-robot"></i></div>
+                    <h5>AI Agent Platform</h5>
+                    <p>
+                        Scalable urban mobility data analysis platform built for
+                        UI GmbH ([ui!] Urban Mobility Innovations). Designed strict
+                        service/database layer separation and implemented secure JWT + RBAC
+                        auth flows for complex user access control.
+                    </p>
+                    <div>
+                        <span class="stack-tag">React</span>
+                        <span class="stack-tag">FastAPI</span>
+                        <span class="stack-tag">PostgreSQL</span>
+                        <span class="stack-tag">Docker</span>
+                        <span class="stack-tag">JWT</span>
+                        <span class="stack-tag">RBAC</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 reveal reveal-delay-1">
+                <div class="project-card">
+                    <div class="project-icon"><i class="bi bi-layers-half"></i></div>
+                    <h5>Full-Stack Web Apps</h5>
+                    <p>
+                        Modern Single-Page Applications with component-based architecture
+                        and robust state management. Integrated backend services via
+                        REST interfaces for dynamic real-time data visualisation.
+                    </p>
+                    <div>
+                        <span class="stack-tag">React</span>
+                        <span class="stack-tag">JavaScript</span>
+                        <span class="stack-tag">Node.js</span>
+                        <span class="stack-tag">REST API</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 reveal reveal-delay-2">
+                <div class="project-card">
+                    <div class="project-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+                    <h5>Custom CMS</h5>
+                    <p>
+                        Modular Content Management System with secure user management
+                        and efficient relational database design. Responsive admin
+                        interface with asynchronous AJAX data manipulation.
+                    </p>
+                    <div>
+                        <span class="stack-tag">PHP</span>
+                        <span class="stack-tag">JavaScript</span>
+                        <span class="stack-tag">MySQL</span>
+                        <span class="stack-tag">Apache</span>
+                        <span class="stack-tag">AJAX</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ EXPERIENCE ══════════════════════ -->
+<section id="experience">
+    <div class="container">
+        <h2 class="section-title reveal">
+            <span class="section-num">04.</span> Experience
+        </h2>
+        <div class="row">
+            <div class="col-lg-8 reveal">
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-date">2024 — Present</div>
+                        <div class="tl-title">Service Lead &amp; Staff</div>
+                        <div class="tl-org">Biergarten Darmstadt</div>
+                        <ul class="tl-body">
+                            <li>Coordinating team workflows under time pressure in a fast-paced environment</li>
+                            <li>Structured task organisation and delegation across service staff</li>
+                            <li>Taking on leadership responsibility and accountability within the team</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ EDUCATION ══════════════════════ -->
+<section id="education">
+    <div class="container">
+        <h2 class="section-title reveal">
+            <span class="section-num">05.</span> Education
+        </h2>
+        <div class="row g-4">
+            <div class="col-lg-6 reveal">
+                <div class="edu-card">
+                    <div class="edu-year">Oct 2023 — Present</div>
+                    <div class="edu-degree">B.Sc. Computer Science</div>
+                    <div class="edu-school">Technische Universität Darmstadt</div>
+                    <p class="edu-note">
+                        Focusing on software engineering, system architecture,
+                        AI integration, parallel programming, and IT security.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 reveal reveal-delay-1">
+                <div class="edu-card">
+                    <div class="edu-year">Oct 2022 — Jul 2023</div>
+                    <div class="edu-degree">Studienkolleg — Computertechnik</div>
+                    <div class="edu-school">Universität Kassel</div>
+                    <p class="edu-note">
+                        University preparatory programme with a focus on computer
+                        technology and engineering fundamentals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ CONTACT ══════════════════════ -->
+<section id="contact">
+    <div class="container reveal">
+        <p class="contact-eyebrow"><span class="section-num">06.</span> What's Next?</p>
+        <h2 class="contact-heading">Get In Touch</h2>
+        <p class="contact-sub">
+            I'm open to new opportunities, collaborations, and interesting conversations.
+            Whether you have a project idea or just want to say hello — my inbox is always open.
+        </p>
+        <a href="mailto:omidtavassoli99@gmail.com" class="btn-outline-accent">Say Hello</a>
+        <div class="social-row">
+            <a href="mailto:omidtavassoli99@gmail.com" class="social-btn" title="Email">
+                <i class="bi bi-envelope-fill"></i>
+            </a>
+            <a href="tel:+491787565660" class="social-btn" title="Phone">
+                <i class="bi bi-telephone-fill"></i>
+            </a>
+            <a href="https://github.com/omid-tavassoli" class="social-btn" title="GitHub" target="_blank" rel="noopener">
+                <i class="bi bi-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/omid-tavassoli-b2758b307" class="social-btn" title="LinkedIn" target="_blank" rel="noopener">
+                <i class="bi bi-linkedin"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="switch">
+    view: <a href="terminal.html">terminal</a> · <span class="cur-t">neon</span> · <a href="aurora.html">aurora</a> · <a href="old-theme.html">classic</a>
+</div>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+    <p>Designed &amp; Built by <span>Omid Tavassoli</span></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="designs/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omid Tavassoli — Software Developer · Aurora</title>
+<meta name="description" content="Omid Tavassoli — Computer Science student at TU Darmstadt building secure backend systems, AI integrations, and full-stack web apps.">
+<meta name="author" content="Omid Tavassoli">
+<meta name="theme-color" content="#0a192f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Omid Tavassoli — Software Developer">
+<meta property="og:description" content="Backend systems, AI integration, and IT security — portfolio of a CS student at TU Darmstadt.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a192f'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='26' font-weight='bold' text-anchor='middle' fill='%2364ffda'%3EOT%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+:root{
+    --bg:#0a192f; --bg2:#112240; --card:rgba(17,34,64,.55);
+    --mint:#64ffda; --indigo:#818cf8; --sky:#38bdf8;
+    --text:#e6f1ff; --muted:#8892b0; --faint:#495a77;
+    --border:rgba(100,255,218,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',sans-serif;overflow-x:hidden;
+    animation:pagein .55s ease;
+}
+@keyframes pagein{from{opacity:0}}
+::selection{background:rgba(100,255,218,.85);color:#0a192f}
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#1d3a6e;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--mint)}
+.wrap{width:min(1100px,92%);margin:0 auto}
+.mono{font-family:'Fira Code',monospace}
+
+/* ── scroll progress ── */
+#prog{position:fixed;top:0;left:0;right:0;height:2px;z-index:500;
+    background:linear-gradient(90deg,var(--mint),var(--sky),var(--indigo));
+    transform:scaleX(0);transform-origin:left}
+
+/* ── aurora background ── */
+#bgfx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.aur{position:absolute;border-radius:50%;filter:blur(110px);opacity:.32;will-change:transform}
+.a1{width:55vw;height:34vw;top:-6%;right:-16%;background:radial-gradient(ellipse,rgba(100,255,218,.5),transparent 65%);animation:adrift1 28s ease-in-out infinite alternate}
+.a2{width:46vw;height:30vw;top:28%;left:-18%;background:radial-gradient(ellipse,rgba(129,140,248,.45),transparent 65%);animation:adrift2 34s ease-in-out infinite alternate}
+.a3{width:44vw;height:28vw;top:58%;right:-12%;background:radial-gradient(ellipse,rgba(56,189,248,.4),transparent 65%);animation:adrift3 30s ease-in-out infinite alternate}
+.a4{width:40vw;height:26vw;bottom:-4%;left:8%;background:radial-gradient(ellipse,rgba(100,255,218,.35),transparent 65%);animation:adrift1 26s ease-in-out infinite alternate-reverse}
+@keyframes adrift1{to{transform:translate3d(-6vw,5vh,0) scale(1.18) rotate(8deg)}}
+@keyframes adrift2{to{transform:translate3d(7vw,-4vh,0) scale(.92) rotate(-6deg)}}
+@keyframes adrift3{to{transform:translate3d(-5vw,-6vh,0) scale(1.1) rotate(5deg)}}
+#page{position:relative;z-index:1}
+
+/* ── navbar ── */
+#nav{
+    position:fixed;top:0;left:0;right:0;z-index:300;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1rem 4vw;
+    background:rgba(10,25,47,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid transparent;
+    transition:transform .4s ease,box-shadow .3s,border-color .3s;
+}
+#nav.scrolled{box-shadow:0 10px 34px rgba(0,0,0,.4);border-color:var(--border)}
+#nav.hide{transform:translateY(-100%)}
+.brand{font-family:'Fira Code';color:var(--mint);font-size:1.25rem;text-decoration:none;letter-spacing:.04em}
+#navlinks{display:flex;align-items:center;gap:.4rem}
+.nv{position:relative;color:var(--muted);text-decoration:none;font-size:.85rem;padding:.4rem .2rem;margin:0 .65rem;transition:color .3s}
+.nv b{font-family:'Fira Code';font-weight:400;color:var(--mint);font-size:.72rem;margin-right:.25rem}
+.nv::after{content:'';position:absolute;left:0;bottom:-1px;height:1.5px;width:100%;background:var(--mint);
+    transform:scaleX(0);transform-origin:right;transition:transform .35s ease}
+.nv:hover,.nv.active{color:var(--text)}
+.nv:hover::after,.nv.active::after{transform:scaleX(1);transform-origin:left}
+#mbtn{display:none;background:none;border:none;color:var(--mint);font-size:1.5rem}
+@media (max-width:880px){
+    #mbtn{display:block}
+    #navlinks{
+        position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:flex-start;
+        gap:.2rem;padding:1rem 4vw 1.4rem;
+        background:rgba(10,25,47,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+        opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .3s,transform .3s;
+    }
+    #navlinks.open{opacity:1;pointer-events:auto;transform:none}
+}
+
+/* ── reveal system ── */
+.reveal{opacity:0;transform:translateY(26px);filter:blur(6px);
+    transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease;
+    transition-delay:var(--d,0s)}
+.reveal-l{transform:translateX(-40px)}
+.reveal-r{transform:translateX(40px)}
+.reveal.on{opacity:1;transform:none;filter:none}
+
+/* ── hero ── */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:100px 0 60px;overflow:hidden}
+#stars{position:absolute;inset:0;z-index:0}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center;width:min(1100px,92%);margin:0 auto;will-change:transform}
+.hero-tag{font-family:'Fira Code';color:var(--mint);font-size:.95rem;margin-bottom:1.3rem}
+.hero-name{
+    font-size:clamp(2.5rem,6.5vw,4.9rem);font-weight:700;line-height:1.04;margin-bottom:.8rem;
+    background:linear-gradient(120deg,#fff 30%,var(--mint) 80%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-role{font-size:clamp(1.3rem,3.3vw,2.4rem);font-weight:600;color:var(--muted);margin-bottom:1.5rem;min-height:1.4em}
+.rotor{display:inline-block;overflow:hidden;vertical-align:bottom}
+.rotor span{display:inline-block;color:var(--mint);transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .5s}
+.rotor span.down{transform:translateY(112%);opacity:0}
+.hero-bio{color:var(--muted);font-size:1.03rem;max-width:520px;line-height:1.8;margin-bottom:2.4rem}
+.hero-cta{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center}
+.btn-brk{
+    font-family:'Fira Code';font-size:.9rem;color:var(--mint);text-decoration:none;
+    padding:.85rem 1.5rem;border:1px solid rgba(100,255,218,.45);border-radius:6px;
+    background:rgba(100,255,218,.04);display:inline-flex;gap:.55rem;align-items:center;
+    transition:background .3s,transform .3s,box-shadow .3s;
+}
+.btn-brk .bl,.btn-brk .br{display:inline-block;transition:transform .3s ease}
+.btn-brk:hover{background:rgba(100,255,218,.1);transform:translateY(-3px);box-shadow:0 0 30px rgba(100,255,218,.18)}
+.btn-brk:hover .bl{transform:translateX(-5px)}
+.btn-brk:hover .br{transform:translateX(5px)}
+.link-arrow{color:var(--muted);font-size:.9rem;text-decoration:none;transition:color .3s}
+.link-arrow i{transition:transform .3s;display:inline-block}
+.link-arrow:hover{color:var(--mint)}
+.link-arrow:hover i{transform:translateX(5px)}
+
+.avatar{position:relative;width:min(300px,68vw);aspect-ratio:1;margin:0 auto}
+.avatar::before{content:'';position:absolute;inset:0;border-radius:50%;border:1.5px dashed rgba(100,255,218,.4);animation:rotcw 28s linear infinite}
+.avatar::after{content:'';position:absolute;inset:34px;border-radius:50%;border:1px solid rgba(129,140,248,.3);animation:rotccw 20s linear infinite}
+@keyframes rotcw{to{transform:rotate(360deg)}}
+@keyframes rotccw{to{transform:rotate(-360deg)}}
+.av-core{
+    position:absolute;inset:16px;border-radius:50%;
+    background:linear-gradient(135deg,#112240,#0d2244);
+    border:1px solid rgba(100,255,218,.35);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fira Code';font-size:3.2rem;color:var(--mint);
+    box-shadow:0 0 60px rgba(100,255,218,.14),inset 0 0 50px rgba(100,255,218,.05);
+}
+.av-chip{
+    position:absolute;font-family:'Fira Code';font-size:.7rem;color:var(--mint);
+    background:rgba(17,34,64,.88);border:1px solid rgba(100,255,218,.3);
+    border-radius:6px;padding:.32rem .6rem;backdrop-filter:blur(6px);
+    animation:bob 5.5s ease-in-out infinite alternate;z-index:2;
+}
+.av-chip.k1{top:4%;left:-8%;animation-delay:0s}
+.av-chip.k2{top:46%;right:-16%;animation-delay:1.4s}
+.av-chip.k3{bottom:2%;left:2%;animation-delay:.7s}
+@keyframes bob{to{transform:translateY(-12px)}}
+.scrolldn{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:1;width:22px;height:38px;border:1.5px solid var(--faint);border-radius:12px}
+.scrolldn::before{content:'';position:absolute;left:50%;top:7px;width:3px;height:8px;margin-left:-1.5px;border-radius:2px;background:var(--mint);animation:wheel 1.9s ease-in-out infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(13px);opacity:0}100%{opacity:0}}
+
+/* ── sections ── */
+section{padding:5.6rem 0;position:relative}
+.sec-title{display:flex;align-items:center;gap:.9rem;font-size:1.65rem;font-weight:700;color:#fff;margin-bottom:2.8rem}
+.sec-title .num{font-family:'Fira Code';color:var(--mint);font-size:.95rem;font-weight:400}
+.sec-line{flex:1;max-width:240px;height:1px;background:linear-gradient(90deg,var(--border),transparent);
+    transform:scaleX(0);transform-origin:left;transition:transform 1s ease .25s}
+.sec-title.on .sec-line{transform:scaleX(1)}
+
+/* ── about ── */
+.about-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:2.4rem;align-items:start}
+.about-text p{color:var(--muted);line-height:1.85;margin-bottom:1.15rem}
+.about-text em{color:var(--mint);font-style:normal}
+.info-card{
+    position:relative;background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:1.5rem 1.7rem;backdrop-filter:blur(10px);overflow:hidden;
+    transition:transform .35s,border-color .35s,box-shadow .35s;
+}
+.info-card:hover{transform:translateY(-5px);border-color:rgba(100,255,218,.4);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.info-card h6{font-family:'Fira Code';color:var(--mint);font-size:.8rem;letter-spacing:.06em;margin-bottom:1.1rem}
+.info-row{display:flex;align-items:center;gap:.65rem;color:var(--muted);font-size:.88rem;padding:.38rem 0}
+.info-row i{color:var(--mint);width:17px;flex-shrink:0}
+.info-row a{color:var(--muted);text-decoration:none;transition:color .25s}
+.info-row a:hover{color:var(--mint)}
+.pulse{width:9px;height:9px;border-radius:50%;background:var(--mint);flex-shrink:0;
+    box-shadow:0 0 0 0 rgba(100,255,218,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(100,255,218,0)}100%{box-shadow:0 0 0 0 rgba(100,255,218,0)}}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.8rem}
+.stat{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:1.5rem 1rem;text-align:center;backdrop-filter:blur(10px);
+    transition:transform .3s,border-color .3s;
+}
+.stat:hover{transform:translateY(-4px);border-color:rgba(100,255,218,.4)}
+.stat b{display:block;font-family:'Fira Code';font-size:clamp(1.7rem,3.6vw,2.4rem);color:var(--mint);font-weight:500}
+.stat span{color:var(--muted);font-size:.8rem;letter-spacing:.05em}
+
+/* ── skills ── */
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1.2rem}
+.skill-card{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:1.45rem;backdrop-filter:blur(10px);
+    transition:transform .35s,border-color .35s,box-shadow .35s;
+}
+.skill-card:hover{transform:translateY(-6px);border-color:rgba(100,255,218,.45);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.skill-card h6{font-family:'Fira Code';color:var(--mint);font-size:.82rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.tag{
+    display:inline-block;background:rgba(100,255,218,.06);border:1px solid rgba(100,255,218,.18);
+    color:var(--text);font-size:.78rem;padding:.26rem .6rem;border-radius:5px;margin:.18rem;
+    opacity:0;transform:translateY(10px);
+    transition:opacity .45s ease,transform .45s ease,background .25s,color .25s;
+}
+.skill-card.on .tag{opacity:1;transform:none}
+.skill-card.on .tag:nth-of-type(1){transition-delay:.1s}.skill-card.on .tag:nth-of-type(2){transition-delay:.15s}
+.skill-card.on .tag:nth-of-type(3){transition-delay:.2s}.skill-card.on .tag:nth-of-type(4){transition-delay:.25s}
+.skill-card.on .tag:nth-of-type(5){transition-delay:.3s}.skill-card.on .tag:nth-of-type(6){transition-delay:.35s}
+.skill-card.on .tag:nth-of-type(7){transition-delay:.4s}.skill-card.on .tag:nth-of-type(8){transition-delay:.45s}
+.tag:hover{background:rgba(100,255,218,.16);color:var(--mint)}
+
+/* ── projects ── */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+.pcard{
+    position:relative;background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:1.9rem;backdrop-filter:blur(10px);overflow:hidden;
+    transition:transform .35s,border-color .35s,box-shadow .35s;will-change:transform;
+}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--mint),var(--sky),transparent);opacity:0;transition:opacity .35s}
+.pcard::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s;
+    background:radial-gradient(480px circle at var(--mx,50%) var(--my,50%),rgba(100,255,218,.08),transparent 45%)}
+.pcard:hover{border-color:rgba(100,255,218,.4);box-shadow:0 24px 54px rgba(0,0,0,.42)}
+.pcard:hover::before,.pcard:hover::after{opacity:1}
+.pcard.feat{grid-column:1/-1}
+.ptop{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.pic{font-size:2.1rem;color:var(--mint)}
+.pgo{color:var(--muted);font-size:1.15rem;transition:transform .3s,color .3s}
+.pcard:hover .pgo{transform:translate(4px,-4px);color:var(--mint)}
+.pcard h5{color:#fff;font-weight:600;font-size:1.18rem;margin-bottom:.6rem}
+.pcard p{color:var(--muted);font-size:.91rem;line-height:1.75;margin-bottom:1.3rem}
+.pcard.feat p{max-width:680px}
+.stack span{font-family:'Fira Code';color:var(--mint);font-size:.72rem;background:rgba(100,255,218,.07);
+    padding:.2rem .55rem;border-radius:4px;margin:.14rem;display:inline-block}
+@media (max-width:760px){.pgrid{grid-template-columns:1fr}}
+
+/* ── experience timeline ── */
+.timeline{position:relative;max-width:760px;padding-left:2rem}
+.tl-track{position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:rgba(100,255,218,.12);border-radius:2px}
+.tl-fill{position:absolute;left:6px;top:4px;bottom:4px;width:2px;border-radius:2px;
+    background:linear-gradient(180deg,var(--mint),var(--sky));
+    transform:scaleY(0);transform-origin:top}
+.tl-item{position:relative;padding-bottom:2.4rem}
+.tl-item::before{content:'';position:absolute;left:-1.66rem;top:.42rem;width:12px;height:12px;border-radius:50%;
+    background:var(--bg);border:2px solid rgba(100,255,218,.35);transition:background .4s,box-shadow .4s,border-color .4s}
+.tl-item.lit::before{background:var(--mint);border-color:var(--mint);box-shadow:0 0 14px rgba(100,255,218,.7)}
+.tl-date{font-family:'Fira Code';color:var(--mint);font-size:.8rem;margin-bottom:.3rem}
+.tl-title{color:#fff;font-weight:600;font-size:1.08rem}
+.tl-org{color:var(--mint);font-size:.88rem;margin-bottom:.7rem}
+.tl-body{color:var(--muted);font-size:.89rem;line-height:1.8;padding-left:1.1rem}
+.tl-body li{margin-bottom:.3rem}
+
+/* ── education ── */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+.edu-card{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:1.7rem;backdrop-filter:blur(10px);
+    transition:transform .35s,border-color .35s,box-shadow .35s;
+}
+.edu-card:hover{transform:translateY(-5px);border-color:rgba(100,255,218,.42);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.edu-year{font-family:'Fira Code';color:var(--mint);font-size:.8rem}
+.edu-degree{color:#fff;font-weight:600;font-size:1.08rem;margin:.35rem 0 .15rem}
+.edu-school{color:var(--muted);font-size:.9rem}
+.edu-note{color:var(--muted);font-size:.85rem;margin-top:.75rem;line-height:1.65}
+@media (max-width:700px){.edu-grid{grid-template-columns:1fr}}
+
+/* ── contact ── */
+#contact{text-align:center;padding-bottom:6.5rem}
+.contact-eyebrow{font-family:'Fira Code';color:var(--mint);font-size:.88rem;margin-bottom:.9rem}
+.contact-h{font-size:clamp(1.9rem,4.5vw,3.1rem);font-weight:700;color:#fff;margin-bottom:1.1rem;position:relative;display:inline-block}
+.contact-h::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-14px;width:70px;height:2px;
+    background:linear-gradient(90deg,var(--mint),var(--sky))}
+.contact-sub{color:var(--muted);max-width:500px;margin:1.8rem auto 2.4rem;line-height:1.8}
+.social-row{display:flex;justify-content:center;gap:1.5rem;margin-top:2.6rem}
+.social-btn{color:var(--muted);font-size:1.4rem;text-decoration:none;transition:color .25s,transform .25s,text-shadow .25s}
+.social-btn:hover{color:var(--mint);transform:translateY(-5px);text-shadow:0 0 22px rgba(100,255,218,.6)}
+
+footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;
+    font-family:'Fira Code';font-size:.76rem;color:var(--muted)}
+footer span{color:var(--mint)}
+
+/* ── language toggle ── */
+.langwrap{display:inline-flex;gap:.15rem;align-items:center;margin-left:.9rem;padding-left:.9rem;border-left:1px solid var(--border)}
+.langbtn{background:none;border:1px solid transparent;border-radius:6px;padding:.28rem .34rem;cursor:pointer;opacity:.4;transition:opacity .25s,border-color .25s;line-height:0}
+.langbtn svg{width:20px;height:14px;border-radius:2px;display:block}
+.langbtn:hover{opacity:.85}
+.langbtn.active{opacity:1;border-color:var(--border)}
+.pstat{font-family:'Fira Code';font-size:.68rem;color:#34d399;border:1px solid rgba(52,211,153,.35);border-radius:4px;padding:.12rem .45rem;margin-left:.55rem;vertical-align:middle}
+.pstat.proto{color:var(--indigo);border-color:rgba(129,140,248,.4)}
+.pstat.code{color:var(--sky);border-color:rgba(56,189,248,.4)}
+.plinks{margin-top:1.15rem;display:flex;gap:1.3rem;flex-wrap:wrap}
+.plinks .link-arrow{font-size:.86rem}
+
+/* ── switcher ── */
+.switch{position:fixed;right:14px;bottom:14px;z-index:400;font-family:'Fira Code';font-size:.7rem;color:var(--faint);
+    background:rgba(10,25,47,.85);border:1px solid var(--border);border-radius:8px;padding:.45rem .75rem;backdrop-filter:blur(10px)}
+.switch a{color:var(--muted);text-decoration:none;transition:color .2s}
+.switch a:hover{color:var(--mint)}
+.switch .cur-t{color:var(--mint)}
+
+@media (max-width:880px){
+    .hero-inner{grid-template-columns:1fr;gap:2.2rem;text-align:left}
+    .avatar{width:min(220px,60vw)}
+    .about-grid{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+    section{padding:4.2rem 0}
+    .stats{gap:.7rem}
+    .av-chip.k2{right:-4%}
+}
+@media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+    .reveal,.tag{opacity:1!important;transform:none!important;filter:none!important}
+    .sec-line{transform:none!important}
+    .tl-fill{transform:none!important}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div id="bgfx">
+    <div class="aur a1"></div><div class="aur a2"></div><div class="aur a3"></div><div class="aur a4"></div>
+</div>
+
+<div id="page">
+
+<nav id="nav">
+    <a class="brand" href="#hero">OT.</a>
+    <button id="mbtn" aria-label="menu"><i class="bi bi-list"></i></button>
+    <div id="navlinks">
+        <a class="nv" href="#about"><b>01.</b><span data-i18n="nav.about">About</span></a>
+        <a class="nv" href="#skills"><b>02.</b><span data-i18n="nav.skills">Skills</span></a>
+        <a class="nv" href="#projects"><b>03.</b><span data-i18n="nav.projects">Projects</span></a>
+        <a class="nv" href="#experience"><b>04.</b><span data-i18n="nav.experience">Experience</span></a>
+        <a class="nv" href="#education"><b>05.</b><span data-i18n="nav.education">Education</span></a>
+        <a class="nv" href="#contact"><b>06.</b><span data-i18n="nav.contact">Contact</span></a>
+        <span class="langwrap"><button class="langbtn" data-setlang="en" title="English" aria-label="English"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#1e3a8a"/><path d="M0 0l20 14M20 0L0 14" stroke="#fff" stroke-width="2.6"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4.4"/><path d="M10 0v14M0 7h20" stroke="#dc2626" stroke-width="2.4"/></svg></button><button class="langbtn" data-setlang="de" title="Deutsch" aria-label="Deutsch"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#000"/><rect y="4.66" width="20" height="4.67" fill="#dd0000"/><rect y="9.33" width="20" height="4.67" fill="#ffce00"/></svg></button></span>
+    </div>
+</nav>
+
+<!-- ══ hero ══ -->
+<header id="hero">
+    <canvas id="stars"></canvas>
+    <div class="hero-inner">
+        <div>
+            <p class="hero-tag reveal" data-i18n="hero.tag">// hi, my name is</p>
+            <h1 class="hero-name reveal" style="--d:.08s">Omid Tavassoli.</h1>
+            <div class="hero-role reveal" style="--d:.16s"><span data-i18n="hero.engineer">I engineer </span><span class="rotor"><span id="rotorWord">backend systems.</span></span></div>
+            <p class="hero-bio reveal" style="--d:.24s" data-i18n="hero.bio">
+                Computer Science student at TU Darmstadt and aspiring software developer.
+                Focused on backend systems, AI integration, and IT security — building secure,
+                scalable solutions that make a difference.
+            </p>
+            <div class="hero-cta reveal" style="--d:.32s">
+                <a class="btn-brk" href="#projects"><span class="bl">[</span><span data-i18n="cta.view"> view projects </span><span class="br">]</span></a>
+                <a class="link-arrow" href="#contact"><span data-i18n="cta.touch">get in touch </span><i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="reveal" style="--d:.4s">
+            <div class="avatar">
+                <div class="av-core">OT</div>
+                <span class="av-chip k1">Spring Boot</span>
+                <span class="av-chip k2">Next.js</span>
+                <span class="av-chip k3">PostgreSQL</span>
+            </div>
+        </div>
+    </div>
+    <div class="scrolldn"></div>
+</header>
+
+<main>
+
+<!-- ══ about ══ -->
+<section id="about">
+    <div class="wrap">
+        <h2 class="sec-title reveal"><span class="num">01.</span> <span data-i18n="about.me">About Me</span> <span class="sec-line"></span></h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p class="reveal" data-i18n-html="about.p1">.</p>
+                <p class="reveal" style="--d:.1s" data-i18n-html="about.p2">.</p>
+                <p class="reveal" style="--d:.2s" data-i18n-html="about.p3">.</p>
+            </div>
+            <div class="info-card reveal reveal-r" style="--d:.15s">
+                <h6>// quick info</h6>
+                <div class="info-row"><span class="pulse"></span> <span data-i18n="now.open">open to Werkstudent roles</span></div>
+                <div class="info-row"><i class="bi bi-geo-alt-fill"></i> Darmstadt, Germany</div>
+                <div class="info-row"><i class="bi bi-mortarboard-fill"></i> B.Sc. Computer Science</div>
+                <div class="info-row"><i class="bi bi-envelope-fill"></i> <a href="mailto:omidtavassoli99@gmail.com">omidtavassoli99@gmail.com</a></div>
+                <div class="info-row"><i class="bi bi-telephone-fill"></i> <a href="tel:+491787565660">+49 178 7565660</a></div>
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat reveal" style="--d:0s"><b><span class="cnt" data-count="2">0</span></b><span data-i18n="stats.live">apps live in production</span></div>
+            <div class="stat reveal" style="--d:.12s"><b><span class="cnt" data-count="4">0</span></b><span data-i18n="stats.shipped">projects shipped</span></div>
+            <div class="stat reveal" style="--d:.24s"><b><span class="cnt" data-count="18">0</span>+</b><span data-i18n="stats.tech">technologies</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ skills ══ -->
+<section id="skills">
+    <div class="wrap">
+        <h2 class="sec-title reveal"><span class="num">02.</span> <span data-i18n="skills.aurora">Technical Skills</span> <span class="sec-line"></span></h2>
+        <div class="skill-grid">
+            <div class="skill-card reveal" style="--d:0s">
+                <h6><i class="bi bi-code-slash"></i> <span data-i18n="sk.lang">Languages</span></h6>
+                <span class="tag">Python</span><span class="tag">Java</span><span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">C++</span><span class="tag">SQL</span>
+            </div>
+            <div class="skill-card reveal" style="--d:.08s">
+                <h6><i class="bi bi-shield-lock"></i> <span data-i18n="sk.backend">Backend &amp; Security</span></h6>
+                <span class="tag">Spring Boot 3</span><span class="tag">FastAPI</span><span class="tag">Laravel 11</span><span class="tag">Node.js</span><span class="tag">REST APIs</span><span class="tag">JWT · RBAC</span><span class="tag">OAuth2</span><span class="tag">Sanctum</span>
+            </div>
+            <div class="skill-card reveal" style="--d:.16s">
+                <h6><i class="bi bi-window-sidebar"></i> <span data-i18n="sk.frontend">Frontend</span></h6>
+                <span class="tag">React</span><span class="tag">Next.js 14</span><span class="tag">HTML5 / CSS3</span><span class="tag">AJAX</span>
+            </div>
+            <div class="skill-card reveal" style="--d:.24s">
+                <h6><i class="bi bi-database"></i> <span data-i18n="sk.db">Databases</span></h6>
+                <span class="tag">PostgreSQL</span><span class="tag">MySQL</span><span class="tag">Redis</span><span class="tag">SQLite</span><span class="tag">SQLAlchemy</span><span class="tag">Flyway</span>
+            </div>
+            <div class="skill-card reveal" style="--d:.32s">
+                <h6><i class="bi bi-stars"></i> <span data-i18n="sk.devops">DevOps &amp; AI</span></h6>
+                <span class="tag">Docker</span><span class="tag">Nginx</span><span class="tag">Linux</span><span class="tag">Git</span><span class="tag">Gemini API</span><span class="tag">Shell Scripting</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ projects ══ -->
+<section id="projects">
+    <div class="wrap">
+        <h2 class="sec-title reveal"><span class="num">03.</span> <span data-i18n="proj.aurora">Projects</span> <span class="sec-line"></span></h2>
+        <div class="pgrid">
+            <div class="pcard feat tilt reveal">
+                <div class="ptop"><span class="pic"><i class="bi bi-graph-up-arrow"></i></span><a class="pgo" href="https://fintrack.omidtavassoli.dev" target="_blank" rel="noopener" aria-label="FinTrack live demo"><i class="bi bi-arrow-up-right"></i></a></div>
+                <h5>FinTrack <span class="pstat">● live</span></h5>
+                <p data-i18n="p.fin.desc">.</p>
+                <div class="stack"><span>Spring Boot 3</span><span>PostgreSQL</span><span>Flyway</span><span>Next.js 14</span><span>Gemini 2.5</span><span>Docker</span><span>JWT</span></div>
+                <div class="plinks"><a class="link-arrow" href="https://fintrack.omidtavassoli.dev" target="_blank" rel="noopener"><span data-i18n="link.live">live demo</span> <i class="bi bi-arrow-right"></i></a><a class="link-arrow" href="https://github.com/omid-tavassoli/fintrack" target="_blank" rel="noopener"><span data-i18n="link.code">code</span> <i class="bi bi-github"></i></a></div>
+            </div>
+            <div class="pcard tilt reveal reveal-l" style="--d:.1s">
+                <div class="ptop"><span class="pic"><i class="bi bi-calendar2-check"></i></span><a class="pgo" href="https://bookit.omidtavassoli.dev" target="_blank" rel="noopener" aria-label="BookIT live demo"><i class="bi bi-arrow-up-right"></i></a></div>
+                <h5>BookIT <span class="pstat">● live</span></h5>
+                <p data-i18n="p.book.desc">.</p>
+                <div class="stack"><span>Laravel 11</span><span>PostgreSQL</span><span>Redis</span><span>Next.js 14</span><span>Sanctum</span><span>Docker</span></div>
+                <div class="plinks"><a class="link-arrow" href="https://bookit.omidtavassoli.dev" target="_blank" rel="noopener"><span data-i18n="link.live">live demo</span> <i class="bi bi-arrow-right"></i></a><a class="link-arrow" href="https://github.com/omid-tavassoli/bookit" target="_blank" rel="noopener"><span data-i18n="link.code">code</span> <i class="bi bi-github"></i></a></div>
+            </div>
+            <div class="pcard tilt reveal reveal-r" style="--d:.2s">
+                <div class="ptop"><span class="pic"><i class="bi bi-robot"></i></span><a class="pgo" href="https://github.com/omid-tavassoli/TeamProject-KiAgent" target="_blank" rel="noopener" aria-label="KI-Agent code"><i class="bi bi-arrow-up-right"></i></a></div>
+                <h5>KI-Agent Platform <span class="pstat code">code</span></h5>
+                <p data-i18n="p.ui.desc">.</p>
+                <div class="stack"><span>React</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>JWT</span><span>RBAC</span></div>
+                <div class="plinks"><a class="link-arrow" href="https://github.com/omid-tavassoli/TeamProject-KiAgent" target="_blank" rel="noopener"><span data-i18n="link.code">code</span> <i class="bi bi-github"></i></a></div>
+            </div>
+            <div class="pcard feat tilt reveal" style="--d:.1s">
+                <div class="ptop"><span class="pic"><i class="bi bi-mortarboard"></i></span><a class="pgo" href="https://edufund.omidtavassoli.dev" target="_blank" rel="noopener" aria-label="EduFund prototype"><i class="bi bi-arrow-up-right"></i></a></div>
+                <h5>EduFund <span class="pstat proto" data-i18n="badge.proto">prototype</span></h5>
+                <p data-i18n="p.edu.desc">.</p>
+                <div class="stack"><span>Gemini API</span><span>AI product design</span></div>
+                <div class="plinks"><a class="link-arrow" href="https://edufund.omidtavassoli.dev" target="_blank" rel="noopener"><span data-i18n="link.proto">live prototype</span> <i class="bi bi-arrow-right"></i></a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ experience ══ -->
+<section id="experience">
+    <div class="wrap">
+        <h2 class="sec-title reveal"><span class="num">04.</span> <span data-i18n="nav.experience">Experience</span> <span class="sec-line"></span></h2>
+        <div class="timeline">
+            <div class="tl-track"></div>
+            <div class="tl-fill"></div>
+            <div class="tl-item reveal">
+                <div class="tl-date">2024 — present</div>
+                <div class="tl-title" data-i18n="j1.role">Service Lead &amp; Staff</div>
+                <div class="tl-org">Biergarten Darmstadt</div>
+                <ul class="tl-body">
+                    <li>Coordinating team workflows under time pressure in a fast-paced environment</li>
+                    <li>Structured task organisation and delegation across service staff</li>
+                    <li>Taking on leadership responsibility and accountability within the team</li>
+                </ul>
+            </div>
+            <div class="tl-item reveal" style="--d:.1s">
+                <div class="tl-date">2023 — present</div>
+                <div class="tl-title" data-i18n="exp.j2.role">Software Projects — University &amp; Industry</div>
+                <div class="tl-org">TU Darmstadt · [ui!] · self-hosted</div>
+                <ul class="tl-body">
+                    <li data-i18n="exp.j2.l1">FinTrack &amp; BookIT shipped to production on my own infrastructure</li>
+                    <li data-i18n="exp.j2.l2">AI agent platform for [ui!] Urban Mobility Innovations (Praktikum)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ education ══ -->
+<section id="education">
+    <div class="wrap">
+        <h2 class="sec-title reveal"><span class="num">05.</span> <span data-i18n="nav.education">Education</span> <span class="sec-line"></span></h2>
+        <div class="edu-grid">
+            <div class="edu-card reveal reveal-l">
+                <div class="edu-year">Oct 2023 — present</div>
+                <div class="edu-degree" data-i18n="j2.role">B.Sc. Computer Science</div>
+                <div class="edu-school">Technische Universität Darmstadt</div>
+                <p class="edu-note" data-i18n="j2.desc">.</p>
+            </div>
+            <div class="edu-card reveal reveal-r" style="--d:.12s">
+                <div class="edu-year">Oct 2022 — Jul 2023</div>
+                <div class="edu-degree">Studienkolleg — Computertechnik</div>
+                <div class="edu-school">Universität Kassel</div>
+                <p class="edu-note" data-i18n="j3.desc">.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ contact ══ -->
+<section id="contact">
+    <div class="wrap">
+        <p class="contact-eyebrow reveal">06. what's next?</p>
+        <h2 class="contact-h reveal" style="--d:.08s" data-i18n="contact.aurora">Get In Touch</h2>
+        <p class="contact-sub reveal" style="--d:.16s" data-i18n="contact.sub">I'm open to new opportunities, collaborations, and interesting
+        conversations. Whether you have a project idea or just want to say hello — my inbox is always open.</p>
+        <a class="btn-brk reveal" style="--d:.24s" href="mailto:omidtavassoli99@gmail.com"><span class="bl">[</span><span data-i18n="cta.hello"> say hello </span><span class="br">]</span></a>
+        <div class="social-row reveal" style="--d:.32s">
+            <a class="social-btn" href="https://github.com/omid-tavassoli" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
+            <a class="social-btn" href="https://www.linkedin.com/in/omid-tavassoli-b2758b307" target="_blank" rel="noopener" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a class="social-btn" href="mailto:omidtavassoli99@gmail.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
+            <a class="social-btn" href="tel:+491787565660" title="Phone"><i class="bi bi-telephone-fill"></i></a>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer data-i18n-html="footer.aurora">Designed &amp; Built by <span>Omid Tavassoli</span></footer>
+
+</div><!-- /page -->
+
+<div class="switch">
+    view: <a href="terminal.html">terminal</a> · <a href="index.html">neon</a> · <span class="cur-t">aurora</span>
+</div>
+
+<script src="i18n.js"></script>
+<script>
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TOUCH = matchMedia('(hover: none), (pointer: coarse)').matches;
+
+/* ── constellation canvas ── */
+const hero = document.getElementById('hero');
+const cv = document.getElementById('stars');
+const ctx = cv.getContext('2d');
+let W = 0, H = 0, pts = [], heroVis = true;
+const mouse = { x: -1e4, y: -1e4 };
+
+function resize() {
+    const DPR = Math.min(2, devicePixelRatio || 1);
+    W = hero.clientWidth; H = hero.clientHeight;
+    cv.width = W * DPR; cv.height = H * DPR;
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    const n = Math.min(110, Math.max(40, Math.round(W * H / 15000)));
+    pts = Array.from({ length: n }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35,
+        r: Math.random() * 1.3 + .6
+    }));
+}
+function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+            const a = pts[i], b = pts[j];
+            const dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
+            if (d2 < 14400) {
+                ctx.strokeStyle = 'rgba(100,255,218,' + ((1 - Math.sqrt(d2) / 120) * .3).toFixed(3) + ')';
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+        }
+    }
+    for (const p of pts) {
+        ctx.fillStyle = 'rgba(230,241,255,.85)';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill();
+    }
+}
+function step() {
+    if (heroVis && !document.hidden) {
+        for (const p of pts) {
+            const dx = mouse.x - p.x, dy = mouse.y - p.y, d2 = dx * dx + dy * dy;
+            if (d2 < 25600 && d2 > 1) {
+                const d = Math.sqrt(d2);
+                p.vx += dx / d * .012; p.vy += dy / d * .012;
+            }
+            p.vx = Math.max(-.6, Math.min(.6, p.vx));
+            p.vy = Math.max(-.6, Math.min(.6, p.vy));
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0 || p.x > W) p.vx *= -1;
+            if (p.y < 0 || p.y > H) p.vy *= -1;
+        }
+        draw();
+    }
+    requestAnimationFrame(step);
+}
+resize();
+if (RM) { draw(); }
+else {
+    step();
+    hero.addEventListener('mousemove', e => {
+        const r = cv.getBoundingClientRect();
+        mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    });
+    hero.addEventListener('mouseleave', () => { mouse.x = -1e4; mouse.y = -1e4; });
+}
+let rsT; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { resize(); if (RM) draw(); }, 150); });
+new IntersectionObserver(es => es.forEach(e => heroVis = e.isIntersecting)).observe(hero);
+
+/* ── scroll progress + navbar hide/show + active link + parallax ── */
+const prog = document.getElementById('prog');
+const nav = document.getElementById('nav');
+const navlinks = document.getElementById('navlinks');
+const heroInner = document.querySelector('.hero-inner');
+const bgfx = document.getElementById('bgfx');
+const secs = [...document.querySelectorAll('main section')];
+const nvs = [...document.querySelectorAll('.nv')];
+let lastY = 0;
+
+addEventListener('scroll', () => {
+    const y = scrollY;
+    const h = document.documentElement;
+    prog.style.transform = 'scaleX(' + (y / (h.scrollHeight - h.clientHeight || 1)) + ')';
+    nav.classList.toggle('scrolled', y > 40);
+    if (y > 340 && y > lastY && !navlinks.classList.contains('open')) nav.classList.add('hide');
+    else nav.classList.remove('hide');
+    lastY = y;
+
+    let cur = '';
+    secs.forEach(s => { if (y >= s.offsetTop - 180) cur = s.id; });
+    nvs.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
+
+    if (!RM) {
+        heroInner.style.transform = 'translateY(' + y * .1 + 'px)';
+        bgfx.style.transform = 'translateY(' + y * -.04 + 'px)';
+    }
+    tlUpdate();
+}, { passive: true });
+
+/* ── mobile menu ── */
+document.getElementById('mbtn').addEventListener('click', () => navlinks.classList.toggle('open'));
+nvs.forEach(a => a.addEventListener('click', () => navlinks.classList.remove('open')));
+
+/* ── reveals ── */
+const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+}), { threshold: .15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── word rotor ── */
+const words = () => (window.t && window.t('rotor.aurora')) || ['backend systems.', 'secure APIs.', 'AI solutions.', 'full-stack apps.'];
+const rw = document.getElementById('rotorWord');
+if (!RM) {
+    let wi = 0;
+    setInterval(() => {
+        rw.classList.add('down');
+        setTimeout(() => {
+            wi = (wi + 1) % words().length;
+            rw.textContent = words()[wi];
+            rw.style.transition = 'none';
+            rw.style.transform = 'translateY(-112%)';
+            rw.style.opacity = '0';
+            void rw.offsetHeight;
+            rw.style.transition = '';
+            rw.classList.remove('down');
+            rw.style.transform = '';
+            rw.style.opacity = '';
+        }, 500);
+    }, 3200);
+}
+
+/* ── counters ── */
+const cio = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    cio.unobserve(en.target);
+    const el = en.target, target = +el.dataset.count, t0 = performance.now(), dur = 1300;
+    if (RM) { el.textContent = target; return; }
+    (function f(now) {
+        const p = Math.min(1, (now - t0) / dur);
+        el.textContent = Math.round(target * (p < .5 ? 2 * p * p : -1 + (4 - 2 * p) * p));
+        if (p < 1) requestAnimationFrame(f);
+    })(t0);
+}), { threshold: .6 });
+document.querySelectorAll('.cnt').forEach(el => cio.observe(el));
+
+/* ── subtle 3D tilt + glare on project cards ── */
+if (!TOUCH && !RM) document.querySelectorAll('.tilt').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        card.style.setProperty('--mx', (px * 100) + '%');
+        card.style.setProperty('--my', (py * 100) + '%');
+        card.style.transform = 'perspective(900px) rotateX(' + ((.5 - py) * 4) + 'deg) rotateY(' + ((px - .5) * 4) + 'deg) translateY(-4px)';
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+
+/* ── scroll-linked timeline fill ── */
+const tl = document.querySelector('.timeline');
+const tlFill = document.querySelector('.tl-fill');
+const tlItems = [...document.querySelectorAll('.tl-item')];
+function tlUpdate() {
+    if (!tl || RM) { if (RM && tlItems.length) tlItems.forEach(i => i.classList.add('lit')); return; }
+    const r = tl.getBoundingClientRect();
+    const trigger = innerHeight * .75;
+    const p = Math.max(0, Math.min(1, (trigger - r.top) / r.height));
+    tlFill.style.transform = 'scaleY(' + p + ')';
+    tlItems.forEach(it => {
+        const ir = it.getBoundingClientRect();
+        it.classList.toggle('lit', ir.top + 24 < trigger && p > 0);
+    });
+}
+tlUpdate();
+</script>
+</body>
+</html>
