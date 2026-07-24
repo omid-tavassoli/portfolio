@@ -298,7 +298,7 @@ body.touring #pnav,body.touring #prog,body.touring .switch,body.touring .scrolld
 #tpanel.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
 .tp-eyebrow{display:flex;align-items:center;gap:.6rem;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem}
 .tp-eyebrow b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
-#tptext{font-size:.92rem;line-height:1.75;color:var(--text)}
+#tptext{font-size:.92rem;line-height:1.75;color:var(--text);max-height:36vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-right:4px}
 .tp-row{display:flex;align-items:center;gap:.6rem;margin-top:1rem;flex-wrap:wrap}
 .tbtn{border:1px solid var(--gborder);background:var(--glass);color:var(--text);border-radius:999px;
     font-family:'Inter';font-size:.83rem;font-weight:600;padding:.55rem 1.2rem;cursor:pointer;transition:opacity .25s,border-color .25s,box-shadow .25s}
@@ -344,6 +344,8 @@ kbd{font-family:'Inter';font-size:.68rem;border:1px solid var(--gborder);border-
 #tsinput{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:999px;
     color:var(--text);font-family:'Inter';font-size:.88rem;padding:.55rem 1.1rem;outline:none;transition:border-color .25s,box-shadow .25s}
 #tsinput:focus{border-color:rgba(168,85,247,.5);box-shadow:0 0 0 3px rgba(168,85,247,.12)}
+@media (pointer:coarse){#tsinput{font-size:16px}}
+.tchip,.tbtn,#tsend,.langbtn,#tourBtn{touch-action:manipulation}
 #tsinput::placeholder{color:var(--muted)}
 #tsend{width:40px;height:40px;border-radius:50%;border:none;flex-shrink:0;background:linear-gradient(135deg,var(--cyan),var(--violet));
     color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
@@ -1106,8 +1108,9 @@ mqt.innerHTML += mqt.innerHTML;
     if (window.visualViewport) {
         visualViewport.addEventListener('resize', () => {
             const card = document.querySelector('.tsh-card');
+            if (!sheet.classList.contains('on')) { card.style.bottom = ''; return; }
             const off = innerHeight - visualViewport.height - visualViewport.offsetTop;
-            card.style.bottom = Math.max(0, off) + 'px';
+            card.style.bottom = Math.min(Math.max(0, off), innerHeight * .6) + 'px';
         });
     }
 
@@ -1146,9 +1149,10 @@ mqt.innerHTML += mqt.innerHTML;
         ty0 = e.touches[0].clientY;
     }, { passive: true });
     document.addEventListener('touchmove', e => {
-        if (T.st === 'idle') return;
-        if (e.target.closest('.tsh-card')) return;   /* answer box stays scrollable */
-        e.preventDefault();                          /* native scroll is dead while touring */
+        /* only touches that BEGAN on the swipe surface are blocked (ty0 set at touchstart);
+           touches on panel / sheet / role modal stay fully native: scroll + crisp taps */
+        if (T.st === 'idle' || ty0 === null) return;
+        e.preventDefault();
     }, { passive: false });
     document.addEventListener('touchend', e => {
         if (ty0 === null) return;

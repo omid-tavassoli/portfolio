@@ -21,10 +21,22 @@ from pydantic import BaseModel, Field
 
 # ── config ──────────────────────────────────────────────────────────
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
-GEMINI_URL = (
-    "https://generativelanguage.googleapis.com/v1beta/models/"
-    "gemini-2.5-flash:generateContent"
-)
+# Model fallback chain: first entry is primary; on transient failure the
+# next one is tried. Swap models via .env (GEMINI_MODELS=a,b) — no code change.
+GEMINI_MODELS = [
+    m.strip()
+    for m in os.environ.get(
+        "GEMINI_MODELS", "gemini-3.5-flash,gemini-2.5-flash"
+    ).split(",")
+    if m.strip()
+]
+
+
+def gemini_url(model: str) -> str:
+    return (
+        "https://generativelanguage.googleapis.com/v1beta/models/"
+        f"{model}:generateContent"
+    )
 ALLOWED_TARGETS = {
     "about", "skills", "projects",
     "p-fintrack", "p-bookit", "p-uiagent", "p-edufund",
@@ -166,14 +178,29 @@ async def call_gemini(question: str, stop: str, role: str, lang: str = "en") -> 
             "temperature": 0.4,
         },
     }
+    last_err: Exception | None = None
     async with httpx.AsyncClient(timeout=30) as client:
-        r = await client.post(
-            GEMINI_URL, params={"key": GEMINI_KEY}, json=payload
-        )
-    r.raise_for_status()
-    data = r.json()
-    text = data["candidates"][0]["content"]["parts"][0]["text"]
-    return json.loads(text)
+        for model in GEMINI_MODELS:
+            for attempt in (1, 2):
+                try:
+                    r = await client.post(
+                        gemini_url(model), params={"key": GEMINI_KEY}, json=payload
+                    )
+                    if r.status_code in (429, 500, 502, 503, 504):
+                        raise httpx.HTTPStatusError(
+                            f"transient {r.status_code}", request=r.request, response=r
+                        )
+                    r.raise_for_status()
+                    data = r.json()
+                    text = data["candidates"][0]["content"]["parts"][0]["text"]
+                    out = json.loads(text)
+                    print(f"[gemini] served by {model} (attempt {attempt})", flush=True)
+                    return out
+                except Exception as e:  # transient, parse, or schema hiccup → next
+                    last_err = e
+                    print(f"[gemini] {model} attempt {attempt} failed: {e!r}", flush=True)
+                    await asyncio.sleep(0.6)
+    raise last_err if last_err else RuntimeError("no models configured")
 
 
 @app.get("/health")
