@@ -42,9 +42,9 @@ ALLOWED_TARGETS = {
     "p-fintrack", "p-bookit", "p-uiagent", "p-edufund",
     "journey", "contact",
 }
-RATE_PER_MIN = 8          # questions per IP per minute
-RATE_PER_DAY = 40         # questions per IP per day
-MAX_NARRATION_CHARS = 900
+RATE_PER_MIN = 10          # questions per IP per minute
+RATE_PER_DAY = 50         # questions per IP per day
+MAX_NARRATION_CHARS = 1000
 
 ALLOWED_ORIGINS = [
     o.strip()
@@ -174,8 +174,11 @@ async def call_gemini(question: str, stop: str, role: str, lang: str = "en") -> 
         "generationConfig": {
             "response_mime_type": "application/json",
             "response_schema": RESPONSE_SCHEMA,
-            "maxOutputTokens": 400,
+            "maxOutputTokens": 700,
             "temperature": 0.4,
+            # Answers are short + schema-constrained; thinking tokens would just eat
+            # into maxOutputTokens and truncate harder questions before the JSON closes.
+            "thinkingConfig": {"thinkingBudget": 0},
         },
     }
     last_err: Exception | None = None
@@ -192,7 +195,13 @@ async def call_gemini(question: str, stop: str, role: str, lang: str = "en") -> 
                         )
                     r.raise_for_status()
                     data = r.json()
-                    text = data["candidates"][0]["content"]["parts"][0]["text"]
+                    candidate = data["candidates"][0]
+                    finish_reason = candidate.get("finishReason")
+                    if finish_reason and finish_reason != "STOP":
+                        raise RuntimeError(
+                            f"gemini finishReason={finish_reason!r} (no usable content)"
+                        )
+                    text = candidate["content"]["parts"][0]["text"]
                     out = json.loads(text)
                     print(f"[gemini] served by {model} (attempt {attempt})", flush=True)
                     return out
