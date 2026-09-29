@@ -9,7 +9,7 @@ Read this once, fully, before deploying. It is short on purpose.
   Laravel, Next.js, Gemini now present), updated stats, hero tour button, and the entire
   tour engine (desktop live-page mode, mobile story deck, question sheet). The old hero
   chatbot and its CSS/JS are gone — scrapped, as you decided.
-- `backend/` — FastAPI service, built from scratch. One endpoint: `POST /ask`, SSE out.
+- `python-backend/` — FastAPI service, built from scratch. One endpoint: `POST /ask`, SSE out.
   Rate limiting (8/min, 40/day per IP), server-side action whitelist, grounding on
   `cv_data.json`, structured output enforced via Gemini responseSchema.
 
@@ -34,14 +34,14 @@ Read this once, fully, before deploying. It is short on purpose.
 
 ## Deploy (on the Hetzner box)
 
-1. `cd backend && cp .env.example .env` — put your `GEMINI_API_KEY` in. A fresh key
+1. `cd python-backend && cp .env.example .env` — put your `GEMINI_API_KEY` in. A fresh key
    (not FinTrack's) is smarter: separate quota, separate blast radius.
 2. `docker compose up -d --build` — binds to 127.0.0.1:8090 only.
 3. Add `nginx-tour.conf` contents inside the portfolio server block; `nginx -t && systemctl reload nginx`.
 4. `curl https://portfolio.omidtavassoli.dev/api/tour/health` → `{"ok": true, "configured": true}`.
 5. Upload the new `index.html` (plus your other theme files unchanged).
 
-Local dev: `uvicorn main:app --port 8090` in backend/, open index.html via any
+Local dev: `uvicorn main:app --port 8090` in python-backend/, open index.html via any
 localhost server — the frontend auto-targets `localhost:8090/ask`.
 
 ## Ship checklist — status
