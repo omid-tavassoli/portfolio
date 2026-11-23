@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#08060f">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Omid Tavassoli — Software Developer">
-<meta property="og:description" content="Backend systems, AI integration, and IT security — portfolio of a CS student at TU Darmstadt. Take the guided tour.">
+<meta property="og:description" content="Backend systems, AI integration, and IT security — portfolio of a CS student at TU Darmstadt.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2308060f'/%3E%3Ctext x='32' y='43' font-family='sans-serif' font-size='26' font-weight='bold' text-anchor='middle' fill='url(%23g)'%3EOT%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,21 +26,19 @@
 
 <nav id="pnav">
     <a class="plogo grad-text" href="#hero">OT.</a>
-    <a class="plink" href="#about" data-i18n="nav.about">About</a>
-    <a class="plink" href="#skills" data-i18n="nav.skills">Skills</a>
-    <a class="plink" href="#projects" data-i18n="nav.projects">Projects</a>
-    <a class="plink" href="#journey" data-i18n="nav.journey">Journey</a>
-    <a class="plink" href="#contact" data-i18n="nav.contact">Contact</a>
-    <span class="langwrap"><button class="langbtn" data-setlang="en" title="English" aria-label="English"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#1e3a8a"/><path d="M0 0l20 14M20 0L0 14" stroke="#fff" stroke-width="2.6"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4.4"/><path d="M10 0v14M0 7h20" stroke="#dc2626" stroke-width="2.4"/></svg></button><button class="langbtn" data-setlang="de" title="Deutsch" aria-label="Deutsch"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#000"/><rect y="4.66" width="20" height="4.67" fill="#dd0000"/><rect y="9.33" width="20" height="4.67" fill="#ffce00"/></svg></button></span>
+    <a class="plink" href="#about">About</a>
+    <a class="plink" href="#skills">Skills</a>
+    <a class="plink" href="#projects">Projects</a>
+    <a class="plink" href="#journey">Journey</a>
+    <a class="plink" href="#contact">Contact</a>
     <button id="burger" aria-label="menu"><span></span><span></span><span></span></button>
 </nav>
 <div id="mnav">
-    <a href="#about" data-i18n="nav.about">About</a>
-    <a href="#skills" data-i18n="nav.skills">Skills</a>
-    <a href="#projects" data-i18n="nav.projects">Projects</a>
-    <a href="#journey" data-i18n="nav.journey">Journey</a>
-    <a href="#contact" data-i18n="nav.contact">Contact</a>
-    <span class="langwrap"><button class="langbtn" data-setlang="en" title="English" aria-label="English"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#1e3a8a"/><path d="M0 0l20 14M20 0L0 14" stroke="#fff" stroke-width="2.6"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4.4"/><path d="M10 0v14M0 7h20" stroke="#dc2626" stroke-width="2.4"/></svg></button><button class="langbtn" data-setlang="de" title="Deutsch" aria-label="Deutsch"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#000"/><rect y="4.66" width="20" height="4.67" fill="#dd0000"/><rect y="9.33" width="20" height="4.67" fill="#ffce00"/></svg></button></span>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#journey">Journey</a>
+    <a href="#contact">Contact</a>
 </div>
 
 <div id="page">
@@ -56,13 +54,20 @@
     <div class="wrap">
         <p class="eyebrow rv">⟡ portfolio <b>—</b> est. darmstadt</p>
         <h1 class="hero-name disp rv" style="--d:.1s">OMID<br>TAVASSOLI</h1>
-        <p class="hero-sub rv" style="--d:.25s"><span data-i18n="hero.craft">I craft </span><span class="rotor"><span id="rotorWord">secure backends</span></span><br><span data-i18n="hero.as">as a CS student @ TU Darmstadt</span></p>
-        <div class="hero-cta rv" style="--d:.4s">
-            <a class="btn btn-glow mag" id="tourBtn" role="button" tabindex="0" data-i18n="hero.tour">
-                Take the guided tour with gemini ✦
-            </a>
-            <a class="btn btn-ghost mag" href="#contact" data-i18n="hero.touch">Get in touch</a>
-        </div>
+        <p class="hero-sub rv" style="--d:.25s"><span>I craft </span><span class="rotor"><span id="rotorWord">secure backends</span></span><br><span>as a CS student @ TU Darmstadt</span></p>
+        <!-- chat bar: opens the chat window (js/chat.js) -->
+        <form class="hero-chat rv" id="heroChat" style="--d:.4s" autocomplete="off" novalidate>
+            <div class="chat-bar">
+                <i class="bi bi-stars" aria-hidden="true"></i>
+                <input id="heroChatInput" type="text" maxlength="400" placeholder="Ask me anything about my projects, skills or experience…" aria-label="Ask a question about Omid">
+                <button class="chat-send" type="submit" aria-label="Send question"><i class="bi bi-arrow-up"></i></button>
+            </div>
+            <div class="chat-chips">
+                <button class="chat-chip" type="button">What's your tech stack?</button>
+                <button class="chat-chip" type="button">Tell me about FinTrack</button>
+                <button class="chat-chip" type="button">Are you open to Werkstudent roles?</button>
+            </div>
+        </form>
     </div>
     <div class="scrolldn"></div>
 </header>
@@ -77,26 +82,26 @@
 <!-- ══ about ══ -->
 <section id="about">
     <div class="wrap">
-        <p class="sec-eyebrow rv"><b>01</b> — <span data-i18n="eb.about">about</span></p>
-        <!-- content from the database (content.js); no data-i18n here, or i18n.js would overwrite it -->
+        <p class="sec-eyebrow rv"><b>01</b> — <span>about</span></p>
+        <!-- content from the database (content.js) -->
         <h2 class="sec-h disp rv" id="aboutTitle"></h2>
         <div class="about-grid">
             <div class="about-text rv rv-l" id="aboutText"></div>
             <div class="glass now-card tilt rv rv-r" style="--d:.15s">
-                <h6 data-i18n="now.head">// currently</h6>
-                <div class="now-row"><span class="pulse"></span> <span data-i18n="now.open">open to Werkstudent roles</span></div>
+                <h6>// currently</h6>
+                <div class="now-row"><span class="pulse"></span> <span>open to Werkstudent roles</span></div>
                 <div class="now-row"><i class="bi bi-geo-alt-fill"></i> Darmstadt, Germany</div>
-                <div class="now-row"><i class="bi bi-mortarboard-fill"></i> <span data-i18n="now.degree">B.Sc. CS @ TU Darmstadt</span></div>
-                <div class="now-row"><i class="bi bi-cpu-fill"></i> <span data-i18n="now.focus">backend · AI · security</span></div>
+                <div class="now-row"><i class="bi bi-mortarboard-fill"></i> <span>B.Sc. CS @ TU Darmstadt</span></div>
+                <div class="now-row"><i class="bi bi-cpu-fill"></i> <span>backend · AI · security</span></div>
                 <div class="now-row"><i class="bi bi-envelope-fill"></i> <a id="nowEmail"></a></div>
                 <div class="now-row"><i class="bi bi-telephone-fill"></i> <a id="nowPhone"></a></div>
             </div>
         </div>
         <!-- counted from the database by content.js -->
         <div class="stats">
-            <div class="glass stat rv" style="--d:0s"><b><span class="cnt" id="statLive" data-count="0">0</span></b><span data-i18n="stats.live">apps live in production</span></div>
-            <div class="glass stat rv" style="--d:.12s"><b><span class="cnt" id="statProjects" data-count="0">0</span></b><span data-i18n="stats.shipped">projects shipped</span></div>
-            <div class="glass stat rv" style="--d:.24s"><b><span class="cnt" id="statTech" data-count="0">0</span></b><span data-i18n="stats.tech">technologies</span></div>
+            <div class="glass stat rv" style="--d:0s"><b><span class="cnt" id="statLive" data-count="0">0</span></b><span>apps live in production</span></div>
+            <div class="glass stat rv" style="--d:.12s"><b><span class="cnt" id="statProjects" data-count="0">0</span></b><span>projects shipped</span></div>
+            <div class="glass stat rv" style="--d:.24s"><b><span class="cnt" id="statTech" data-count="0">0</span></b><span>technologies</span></div>
         </div>
     </div>
 </section>
@@ -104,8 +109,8 @@
 <!-- ══ skills ══ -->
 <section id="skills">
     <div class="wrap">
-        <p class="sec-eyebrow rv"><b>02</b> — <span data-i18n="eb.arsenal">arsenal</span></p>
-        <h2 class="sec-h disp rv" data-i18n-html="skills.title">Technical <span class="grad-text">skills</span></h2>
+        <p class="sec-eyebrow rv"><b>02</b> — <span>arsenal</span></p>
+        <h2 class="sec-h disp rv">Technical <span class="grad-text">skills</span></h2>
         <div class="skill-grid" id="skillGrid"></div>
     </div>
 </section>
@@ -113,20 +118,20 @@
 <!-- ══ projects ══ -->
 <section id="projects">
     <div class="wrap">
-        <p class="sec-eyebrow rv"><b>03</b> — <span data-i18n="eb.work">selected work</span></p>
-        <h2 class="sec-h disp rv" data-i18n-html="proj.title">Things I've <span class="grad-text">built</span></h2>
+        <p class="sec-eyebrow rv"><b>03</b> — <span>selected work</span></p>
+        <h2 class="sec-h disp rv">Things I've <span class="grad-text">built</span></h2>
 
         <div id="projectList"></div>
 
-        <p class="rv" style="margin-top:1.4rem"><a class="proj-link" href="https://github.com/omid-tavassoli" target="_blank" rel="noopener"><span data-i18n="link.more">more on github</span> <i class="bi bi-arrow-up-right"></i></a></p>
+        <p class="rv" style="margin-top:1.4rem"><a class="proj-link" href="https://github.com/omid-tavassoli" target="_blank" rel="noopener"><span>more on github</span> <i class="bi bi-arrow-up-right"></i></a></p>
     </div>
 </section>
 
 <!-- ══ journey ══ -->
 <section id="journey">
     <div class="wrap">
-        <p class="sec-eyebrow rv"><b>04</b> — <span data-i18n="eb.path">the path</span></p>
-        <h2 class="sec-h disp rv" data-i18n-html="journey.title">My <span class="grad-text">journey</span></h2>
+        <p class="sec-eyebrow rv"><b>04</b> — <span>the path</span></p>
+        <h2 class="sec-h disp rv">My <span class="grad-text">journey</span></h2>
         <div class="tline" id="journeyLine"></div>
     </div>
 </section>
@@ -134,76 +139,45 @@
 <!-- ══ contact ══ -->
 <section id="contact">
     <div class="wrap">
-        <p class="sec-eyebrow rv"><b>05</b> — <span data-i18n="eb.next">what's next?</span></p>
+        <p class="sec-eyebrow rv"><b>05</b> — <span>what's next?</span></p>
         <h2 class="contact-h disp rv" id="contactTitle"></h2>
         <div class="rv" style="--d:.1s" id="contactSub"></div>
-        <a class="btn btn-glow mag rv" style="--d:.2s" id="contactCta" data-i18n="contact.cta">Say Hello ✦</a>
+        <a class="btn btn-glow mag rv" style="--d:.2s" id="contactCta">Say Hello ✦</a>
         <div class="socials rv" style="--d:.3s" id="contactSocials"></div>
     </div>
 </section>
 
 </main>
 
-<footer data-i18n-html="footer.by">Designed &amp; built by <b>Omid Tavassoli</b> — © 2026</footer>
+<footer>Designed &amp; built by <b>Omid Tavassoli</b> — © 2026</footer>
 
 </div><!-- /page -->
 
-<!-- ══ guided tour overlays ══ -->
-<div id="tourdim"></div>
-
-<div id="trole" role="dialog" aria-label="Choose a tour route">
-    <div class="trole-card">
-        <h3 class="disp">What are you hiring for?</h3>
-        <p>I'll pick the route — you can ask questions at every stop.</p>
-        <div class="trole-chips">
-            <button class="tchip" data-role="backend">Backend</button>
-            <button class="tchip" data-role="ai">AI / ML</button>
-            <button class="tchip" data-role="fullstack">Fullstack</button>
-            <button class="tchip" data-role="curious">Just looking</button>
+<!-- ══ chat window ══ -->
+<div class="chat-panel" id="chatPanel" role="dialog" aria-labelledby="chatTitle" aria-hidden="true">
+    <div class="chat-head">
+        <span class="chat-avatar"><i class="bi bi-stars"></i></span>
+        <div class="chat-head-text">
+            <b id="chatTitle">Ask Omid's assistant</b>
+            <span><span class="chat-dot"></span>answers from Omid's CV</span>
         </div>
+        <button class="chat-close" id="chatClose" type="button" aria-label="Close chat"><i class="bi bi-x-lg"></i></button>
     </div>
-</div>
-
-<div id="tpanel" role="dialog" aria-label="Tour narration">
-    <div id="thint">swipe up to continue <b>↑</b></div>
-    <div class="tp-eyebrow"><b id="tprole">tour</b><span id="tptitle"></span></div>
-    <div id="tptext"></div>
-    <div class="tp-row">
-        <button class="tbtn tx" id="tprev" aria-label="previous stop">←</button>
-        <button class="tbtn" id="task">Ask ✦</button>
-        <button class="tbtn pri" id="tnext">Continue →</button>
-        <span id="tstep"></span>
-        <button class="tbtn tx" id="texit" aria-label="exit tour">✕</button>
-    </div>
-</div>
-
-<div id="tsheet">
-    <div class="tsh-bg" id="tshbg"></div>
-    <div class="tsh-card">
-        <div class="tsh-top">
-            <span class="tsh-dot"></span>
-            <span>Ask about this — answered live from Omid's CV</span>
-            <span class="tsh-badge">AI</span>
-            <button class="tbtn tx" id="tsclose" aria-label="close">✕</button>
-        </div>
-        <div id="tsans"></div>
-        <div id="tschips"></div>
-        <div class="tsh-form">
-            <input id="tsinput" type="text" maxlength="400" placeholder="Or type your own question…" autocomplete="off">
-            <button id="tsend" aria-label="send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-        </div>
-    </div>
+    <div class="chat-log" id="chatLog" aria-live="polite"></div>
+    <form class="chat-form" id="chatForm" autocomplete="off" novalidate>
+        <input id="chatInput" type="text" maxlength="400" placeholder="Ask a follow-up question…" aria-label="Your message">
+        <button class="chat-send" type="submit" aria-label="Send message"><i class="bi bi-arrow-up"></i></button>
+    </form>
 </div>
 
 <div class="switch">
     view: <a href="terminal.html">terminal</a> · <span class="cur-t">neon</span> · <a href="aurora.html">aurora</a>
 </div>
 
-<script src="i18n.js"></script>
 <script src="js/index.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/content.js"></script>
+<script src="js/chat.js"></script>
 
-<script src="js/index-tour.js"></script>
 </body>
 </html>

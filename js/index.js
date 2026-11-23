@@ -64,7 +64,7 @@ addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ── word rotor ── */
-const words = () => (window.t && window.t('rotor.words')) || ['secure backends', 'AI-powered products', 'fast APIs', 'production systems'];
+const words = () => ['secure backends', 'AI-powered products', 'fast APIs', 'production systems'];
 const rw = document.getElementById('rotorWord');
 if (!RM) {
     let wi = 0;

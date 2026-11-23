@@ -277,11 +277,6 @@ footer .ok{color:var(--green)}
     html{scroll-behavior:auto}
     .sec-win{opacity:1;transform:none}
 }
-.langwrap{display:inline-flex;gap:.15rem;align-items:center;margin-left:auto;padding:0 .5rem}
-.langbtn{background:none;border:1px solid transparent;border-radius:4px;padding:.2rem .3rem;cursor:pointer;opacity:.4;transition:opacity .25s;line-height:0}
-.langbtn svg{width:18px;height:12px;border-radius:1.5px;display:block}
-.langbtn:hover{opacity:.85}
-.langbtn.active{opacity:1;border-color:rgba(255,255,255,.25)}
 .tmux-clock{margin-left:.4rem}
 .repo-links{margin-top:.9rem;display:flex;gap:1rem}
 .rstat{font-size:.68rem;color:#50fa7b;border:1px solid rgba(80,250,123,.35);border-radius:3px;padding:.08rem .4rem;margin-left:.5rem}
@@ -306,7 +301,6 @@ footer .ok{color:var(--green)}
     <a class="tmux-win" href="#experience">4:work</a>
     <a class="tmux-win" href="#education">5:edu</a>
     <a class="tmux-win" href="#contact">6:contact</a>
-    <span class="langwrap"><button class="langbtn" data-setlang="en" title="English" aria-label="English"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#1e3a8a"/><path d="M0 0l20 14M20 0L0 14" stroke="#fff" stroke-width="2.6"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4.4"/><path d="M10 0v14M0 7h20" stroke="#dc2626" stroke-width="2.4"/></svg></button><button class="langbtn" data-setlang="de" title="Deutsch" aria-label="Deutsch"><svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#000"/><rect y="4.66" width="20" height="4.67" fill="#dd0000"/><rect y="9.33" width="20" height="4.67" fill="#ffce00"/></svg></button></span>
     <span class="tmux-clock" id="clk"></span>
 </nav>
 
@@ -351,10 +345,10 @@ footer .ok{color:var(--green)}
                     <span class="win-title">about.md</span>
                 </div>
                 <div class="md-body">
-                    <h3 data-i18n="about.me">About Me</h3>
-                    <p data-i18n-html="about.p1">.</p>
-                    <p data-i18n-html="about.p2">.</p>
-                    <p data-i18n-html="about.p3">.</p>
+                    <h3>About Me</h3>
+                    <p>I'm a <em>Computer Science student at TU Darmstadt</em> with a passion for crafting efficient, secure, and scalable software. My work sits at the intersection of <em>backend engineering</em>, <em>AI integration</em>, and <em>IT security</em>.</p>
+                    <p>I ship end-to-end: <em>FinTrack</em>, an AI-powered finance tracker, and <em>BookIT</em>, a race-condition-safe booking platform, both run <em>live in production</em> on my own Hetzner infrastructure — alongside an <em>AI agent platform</em> built for [ui!] Urban Mobility Innovations during my Praktikum.</p>
+                    <p>Outside of engineering, I lead a service team at a restaurant — sharpening <em>coordination under pressure</em> and <em>team responsibility</em>.</p>
                 </div>
             </div>
             <div class="win sec-win">
@@ -378,7 +372,7 @@ footer .ok{color:var(--green)}
                         <div><span class="nf-k">Shell</span>..... Python / Java / JS / PHP</div>
                         <div><span class="nf-k">Packages</span>.. Spring Boot, FastAPI, Laravel, Docker</div>
                         <div><span class="nf-k">Locale</span>.... Darmstadt, Germany</div>
-                        <div><span class="nf-k">Status</span>.... <span class="nf-ok">● <span data-i18n="now.open">open to Werkstudent roles</span></span></div>
+                        <div><span class="nf-k">Status</span>.... <span class="nf-ok">● <span>open to Werkstudent roles</span></span></div>
                         <div><span class="nf-k">Mail</span>...... <a href="mailto:omidtavassoli99@gmail.com">omidtavassoli99@gmail.com</a></div>
                     </div>
                 </div>
@@ -441,36 +435,36 @@ footer .ok{color:var(--green)}
                     <span class="repo-name">fintrack<span class="rstat">live</span></span>
                     <span class="repo-lang"><span class="lang-dot" style="background:#b07219"></span>Java</span>
                 </div>
-                <p data-i18n="p.fin.desc">.</p>
+                <p>AI-powered personal finance tracker. Upload a bank-statement PDF and Gemini Vision extracts the transactions; a two-stage engine — deterministic rules first, Gemini fallback second — categorizes them. Z-score anomaly detection flags unusual spending, and a natural-language query engine answers questions like "how much did I spend on groceries in May?".</p>
                 <div class="stack"><span>Spring Boot 3</span><span>PostgreSQL</span><span>Flyway</span><span>Next.js 14</span><span>Gemini 2.5</span><span>Docker</span></div>
-                <div class="repo-links"><a class="flag" href="https://fintrack.omidtavassoli.dev" target="_blank" rel="noopener" data-i18n="link.live">live demo</a><a class="flag" href="https://github.com/omid-tavassoli/fintrack" target="_blank" rel="noopener" data-i18n="link.code">code</a></div>
+                <div class="repo-links"><a class="flag" href="https://fintrack.omidtavassoli.dev" target="_blank" rel="noopener">live demo</a><a class="flag" href="https://github.com/omid-tavassoli/fintrack" target="_blank" rel="noopener">code</a></div>
             </div>
             <div class="repo sec-win">
                 <div class="repo-top">
                     <span class="repo-name">bookit<span class="rstat">live</span></span>
                     <span class="repo-lang"><span class="lang-dot" style="background:#4F5D95"></span>PHP</span>
                 </div>
-                <p data-i18n="p.book.desc">.</p>
+                <p>Booking platform engineered against race conditions: PostgreSQL advisory locks make double-booking impossible under concurrent requests. Laravel 11 API with Sanctum auth, Redis caching and queue-based e-mail — deployed with Docker and Nginx on a Hetzner VPS.</p>
                 <div class="stack"><span>Laravel 11</span><span>PostgreSQL</span><span>Redis</span><span>Next.js 14</span><span>Sanctum</span><span>Docker</span></div>
-                <div class="repo-links"><a class="flag" href="https://bookit.omidtavassoli.dev" target="_blank" rel="noopener" data-i18n="link.live">live demo</a><a class="flag" href="https://github.com/omid-tavassoli/bookit" target="_blank" rel="noopener" data-i18n="link.code">code</a></div>
+                <div class="repo-links"><a class="flag" href="https://bookit.omidtavassoli.dev" target="_blank" rel="noopener">live demo</a><a class="flag" href="https://github.com/omid-tavassoli/bookit" target="_blank" rel="noopener">code</a></div>
             </div>
             <div class="repo sec-win">
                 <div class="repo-top">
                     <span class="repo-name">ki-agent-platform<span class="rstat code">code</span></span>
                     <span class="repo-lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
                 </div>
-                <p data-i18n="p.ui.desc">.</p>
+                <p>Built during my Praktikum for [ui!] Urban Mobility Innovations: a scalable platform for analysing urban mobility data. Strict service/database layer separation and secure JWT + RBAC auth flows for complex user access control.</p>
                 <div class="stack"><span>React</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>JWT</span><span>RBAC</span></div>
-                <div class="repo-links"><a class="flag" href="https://github.com/omid-tavassoli/TeamProject-KiAgent" target="_blank" rel="noopener" data-i18n="link.code">code</a></div>
+                <div class="repo-links"><a class="flag" href="https://github.com/omid-tavassoli/TeamProject-KiAgent" target="_blank" rel="noopener">code</a></div>
             </div>
             <div class="repo sec-win">
                 <div class="repo-top">
-                    <span class="repo-name">edufund<span class="rstat proto" data-i18n="badge.proto">prototype</span></span>
+                    <span class="repo-name">edufund<span class="rstat proto">prototype</span></span>
                     <span class="repo-lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
                 </div>
-                <p data-i18n="p.edu.desc">.</p>
+                <p>Built in an AI-entrepreneurship course: one semester to go from problem to AI product to business model. EduFund helps students in Germany discover funding programmes (Förderungen) — the deployed prototype ships the full UI plus a working Gemini-powered advisor chat.</p>
                 <div class="stack"><span>Gemini API</span><span>AI product design</span></div>
-                <div class="repo-links"><a class="flag" href="https://edufund.omidtavassoli.dev" target="_blank" rel="noopener" data-i18n="link.proto">live prototype</a></div>
+                <div class="repo-links"><a class="flag" href="https://edufund.omidtavassoli.dev" target="_blank" rel="noopener">live prototype</a></div>
             </div>
         </div>
     </div>
@@ -527,9 +521,8 @@ footer .ok{color:var(--green)}
     <div class="wrap">
         <div class="sec-cmd" style="display:flex;justify-content:center"><span class="sec-num">[06]</span><span class="p-user">omid</span><span class="p-sym">@</span><span class="p-host">darmstadt</span><span class="p-sym">:~$</span>&nbsp;<span class="typed-cmd" data-cmd="./say-hello.sh"></span><span class="cur blink">▌</span></div>
         <div class="sec-win">
-            <h2 class="contact-h" data-i18n="contact.aurora">Get In Touch</h2>
-            <p class="contact-sub" data-i18n="contact.sub">I'm open to new opportunities, collaborations, and interesting conversations.
-            Whether you have a project idea or just want to say hello — my inbox is always open.</p>
+            <h2 class="contact-h">Get In Touch</h2>
+            <p class="contact-sub">I'm open to new opportunities, collaborations, and interesting conversations. Whether you have a project idea or just want to say hello — my inbox is always open.</p>
             <a class="btn-term" href="mailto:omidtavassoli99@gmail.com">$ send-email --to omid</a>
             <div class="flags">
                 <a class="flag" href="https://github.com/omid-tavassoli" target="_blank" rel="noopener">github</a>
@@ -551,7 +544,6 @@ footer .ok{color:var(--green)}
     view: <span class="cur-t">terminal</span> · <a href="index.html">neon</a> · <a href="aurora.html">aurora</a>
 </div>
 
-<script src="i18n.js"></script>
 <script>
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = s => document.querySelector(s);

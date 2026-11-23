@@ -4,24 +4,12 @@
 (function () {
     const $ = id => document.getElementById(id);
 
-    // database content is English; these labels are translated when the page is in German
-    const DE = {
-        'Programming Languages': 'Programmiersprachen', 'Frontend & Data': 'Frontend & Daten', 'Languages': 'Sprachen', 'AI': 'KI',
-        education: 'Ausbildung', work: 'Job', internship: 'Praktikum', experience: 'Erfahrung', volunteer: 'Ehrenamt', other: 'Sonstiges',
-    };
-    const label = text => (window.SITE_LANG === 'de' && DE[text]) || text;
-    const tr = key => (window.t ? window.t(key) : key);
-
     const BADGE_CLASS = { education: 'edu', work: 'work' }; // the classes index.css already had
-    let data = null;
-    let firstRender = true;
 
-    // new cards fade in like the rest of the page; after a language switch they are shown right away
+    // new cards fade in and tilt like the rest of the page
     function wire(el) {
         if (el.classList.contains('tilt')) window.OT.tilt(el);
-        if (!el.classList.contains('rv')) return;
-        if (firstRender) window.OT.reveal(el);
-        else el.classList.add('on');
+        if (el.classList.contains('rv')) window.OT.reveal(el);
     }
 
     function setCount(el, n) {
@@ -62,7 +50,7 @@
         const cards = groups.map((g, i) => {
             const card = make('div', 'glass skill-card tilt rv');
             card.style.setProperty('--d', `${(i * 0.08).toFixed(2)}s`);
-            card.append(skillIcon(g.header), make('h5', null, label(g.header)), ...g.skills.map(s => make('span', 'npill', s)));
+            card.append(skillIcon(g.header), make('h5', null, g.header), ...g.skills.map(s => make('span', 'npill', s)));
             return card;
         });
         $('skillGrid').replaceChildren(...cards);
@@ -72,21 +60,21 @@
     function projectCard(p, index, id) {
         const info = make('div', 'proj-info');
         const title = make('h4', 'disp', p.title);
-        if (isHttpUrl(p.live_url)) title.append(' ', make('span', 'pbadge live', tr('badge.live')));
-        else if (isHttpUrl(p.github_url)) title.append(' ', make('span', 'pbadge code', tr('badge.code')));
+        if (isHttpUrl(p.live_url)) title.append(' ', make('span', 'pbadge live', '● live'));
+        else if (isHttpUrl(p.github_url)) title.append(' ', make('span', 'pbadge code', 'code'));
         const desc = make('div');
         renderParagraphs(desc, p.description || '');
         info.append(make('span', 'proj-num', `/ ${String(index + 1).padStart(2, '0')}`), title, ...desc.childNodes);
         for (const tech of techList(p.technologies)) info.append(make('span', 'npill', tech));
 
         const links = make('div', 'proj-links');
-        for (const [field, key, icon] of [['live_url', 'link.live', 'bi-arrow-up-right'], ['github_url', 'link.code', 'bi-github']]) {
+        for (const [field, text, icon] of [['live_url', 'live demo', 'bi-arrow-up-right'], ['github_url', 'code', 'bi-github']]) {
             if (!isHttpUrl(p[field])) continue;
             const a = make('a', 'proj-link');
             a.href = p[field];
             a.target = '_blank';
             a.rel = 'noopener';
-            a.append(make('span', null, tr(key)), ' ', make('i', `bi ${icon}`));
+            a.append(make('span', null, text), ' ', make('i', `bi ${icon}`));
             links.append(a);
         }
         if (links.childNodes.length) info.append(links);
@@ -106,7 +94,7 @@
         }
 
         const card = make('div', 'glass proj tilt rv');
-        card.id = id; // the guided tour finds projects by these ids (p-fintrack, p-bookit, …)
+        card.id = id; // e.g. p-fintrack, so a project can be linked as index.html#p-fintrack
         card.append(...(index % 2 ? [vis, info] : [info, vis]));
         return card;
     }
@@ -129,7 +117,7 @@
             const desc = make('div');
             renderParagraphs(desc, e.description || '');
             card.append(
-                make('span', `tbadge ${BADGE_CLASS[e.type] || e.type}`, label(e.type)),
+                make('span', `tbadge ${BADGE_CLASS[e.type] || e.type}`, e.type),
                 make('div', 'tdate', e.timeline),
                 make('h5', null, e.title),
                 make('div', 'torg', e.institution),
@@ -166,20 +154,17 @@
         }));
     }
 
-    function render() {
+    function render(data) {
         renderAbout(data.about, data.contact);
         renderStats(data.projects, data.skills);
         renderSkills(data.skills);
         renderProjects(data.projects);
         renderJourney(data.journey);
         renderContact(data.contact);
-        firstRender = false;
     }
 
     function showError() {
-        const text = window.SITE_LANG === 'de'
-            ? 'Dieser Bereich konnte gerade nicht geladen werden.'
-            : "This section couldn't be loaded right now.";
+        const text = "This section couldn't be loaded right now.";
         for (const id of ['aboutText', 'skillGrid', 'projectList', 'journeyLine', 'contactSub']) {
             $(id).replaceChildren(make('p', 'load-err', text));
         }
@@ -189,16 +174,12 @@
         try {
             const res = await fetch(`${API_BASE}/getContent.php`);
             if (!res.ok) throw new Error(`getContent.php answered ${res.status}`);
-            data = (await res.json()).data;
-            render();
+            render((await res.json()).data);
         } catch (err) {
             console.error('content.js:', err);
             showError();
         }
     }
-
-    // labels like "live demo" or "Ausbildung" follow the language switch
-    addEventListener('ot:lang', () => { if (data) render(); });
 
     load();
 })();
