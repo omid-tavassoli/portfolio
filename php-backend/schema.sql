@@ -14,6 +14,34 @@ CREATE TABLE about (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+-- the "// currently" card next to about; one row (id = 1); email/phone come from contact
+CREATE TABLE currently (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    status VARCHAR(255) NOT NULL,              -- row with the pulse dot
+    available BOOLEAN NOT NULL DEFAULT TRUE,   -- pulse dot green + animated, or grey
+    location VARCHAR(255) NOT NULL,
+    degree VARCHAR(255) NOT NULL,
+    focus VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+-- hero chips: up to 5, each on one of the 5 fixed positions around the name (c1…c5)
+CREATE TABLE chips (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    slot TINYINT NOT NULL UNIQUE,              -- position 1–5
+    label VARCHAR(40) NOT NULL,
+    icon VARCHAR(64) NOT NULL,                 -- Bootstrap icon class, e.g. bi-box-seam
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CHECK (slot BETWEEN 1 AND 5)
+);
+-- marquee words in normal spelling (shown in capitals), in creation order
+CREATE TABLE marquee (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    label VARCHAR(40) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 CREATE TABLE skills (
     id INT AUTO_INCREMENT PRIMARY KEY,
     -- the order here is the display order (ORDER BY on an ENUM sorts by position)

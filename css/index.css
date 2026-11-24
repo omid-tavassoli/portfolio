@@ -179,7 +179,7 @@ html.rm #cdot,html.rm #cring{display:none}
     background:var(--glass);border-top:1px solid var(--gborder);border-bottom:1px solid var(--gborder);backdrop-filter:blur(6px)}
 .mq-track{display:flex;gap:2.6rem;width:max-content;padding:.85rem 0;animation:mq 30s linear infinite}
 .mq:hover .mq-track{animation-play-state:paused}
-.mq-track span{font-family:'Space Grotesk';font-size:.92rem;letter-spacing:.22em;color:var(--muted);white-space:nowrap}
+.mq-track span{font-family:'Space Grotesk';font-size:.92rem;letter-spacing:.22em;color:var(--muted);white-space:nowrap;text-transform:uppercase}
 .mq-track span i{color:var(--violet);font-style:normal}
 @keyframes mq{to{transform:translateX(-50%)}}
 
@@ -215,12 +215,8 @@ section{padding:6.2rem 0;position:relative}
 .now-row a{color:var(--text);text-decoration:none}
 .now-row a:hover{color:var(--cyan)}
 .pulse{width:9px;height:9px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 2s infinite;flex-shrink:0}
+.pulse.off{background:var(--muted);animation:none;box-shadow:none;opacity:.6}
 @keyframes pulse{70%{box-shadow:0 0 0 11px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.6rem}
-.stat{padding:1.6rem 1rem;text-align:center}
-.stat b{display:block;font-family:'Space Grotesk';font-size:clamp(1.9rem,4vw,2.7rem);font-weight:700;
-    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat span{color:var(--muted);font-size:.82rem;letter-spacing:.06em}
 
 /* ── skills ── */
 .skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.3rem}
@@ -312,8 +308,8 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
 .switch a:hover{color:#fff}
 .switch .cur-t{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-@media (max-width:820px){.about-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:560px){section{padding:4.4rem 0}.stats{gap:.7rem}}
+@media (max-width:820px){.about-grid{grid-template-columns:1fr}}
+@media (max-width:560px){section{padding:4.4rem 0}}
 @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
     html{scroll-behavior:auto}

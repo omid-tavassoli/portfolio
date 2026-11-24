@@ -36,6 +36,56 @@
 
 <main class="wrap dash-main">
 
+    <!-- ══ hero chips ══ one card per position; each chip is edited on its own -->
+    <article class="dash-box rv" id="boxChips" aria-labelledby="chipsBoxTitle">
+        <header class="dash-box-head">
+            <div class="dash-box-id">
+                <span class="dash-box-icon"><i class="bi bi-tags"></i></span>
+                <div>
+                    <h2 class="dash-box-title disp" id="chipsBoxTitle"><span class="dash-box-num">00</span> Hero chips</h2>
+                    <p class="dash-box-meta" id="chipsMeta">Loading from the database…</p>
+                </div>
+            </div>
+        </header>
+        <div class="dash-box-body">
+            <div class="auth-msg" id="chipsMsg" role="status"></div>
+            <p class="dash-hint dash-box-hint">The floating tags around your name. Each position is a fixed spot on the hero; they are hidden on screens under 900 px.</p>
+            <div class="dash-chip-grid" id="chipsGrid"></div>
+        </div>
+    </article>
+
+    <!-- ══ marquee ══ words are added and deleted, like skills -->
+    <article class="dash-box rv" id="boxMarquee" aria-labelledby="marqueeBoxTitle">
+        <header class="dash-box-head">
+            <div class="dash-box-id">
+                <span class="dash-box-icon"><i class="bi bi-arrow-left-right"></i></span>
+                <div>
+                    <h2 class="dash-box-title disp" id="marqueeBoxTitle"><span class="dash-box-num">00</span> Marquee</h2>
+                    <p class="dash-box-meta" id="marqueeMeta">Loading from the database…</p>
+                </div>
+            </div>
+            <div class="dash-actions">
+                <span class="dash-dirty" id="marqueeDirty" hidden>unsaved changes</span>
+                <button class="btn btn-ghost dash-btn" id="marqueeEdit" type="button" disabled><i class="bi bi-pencil"></i> Edit</button>
+                <button class="btn btn-ghost dash-btn" id="marqueeCancel" type="button" hidden>Cancel</button>
+                <button class="btn btn-glow dash-btn" id="marqueeSave" type="button" hidden disabled><i class="bi bi-check2"></i> Save changes</button>
+            </div>
+        </header>
+        <div class="dash-box-body">
+            <div class="auth-msg" id="marqueeMsg" role="status"></div>
+            <form class="dash-skill-add dash-mq-add" id="marqueeAddForm" hidden novalidate>
+                <label class="field">
+                    <span class="field-label">New word <span class="dash-count">max 40 characters, shown in capitals</span></span>
+                    <input id="marqueeInput" type="text" maxlength="40" placeholder="e.g. Kubernetes" autocomplete="off">
+                </label>
+                <button class="btn btn-ghost dash-btn" type="submit"><i class="bi bi-plus-lg"></i> Add</button>
+            </form>
+            <div class="dash-preview">
+                <div class="mq-track dash-mq-static" id="marqueeList"></div>
+            </div>
+        </div>
+    </article>
+
     <!-- ══ about ══ -->
     <article class="dash-box rv" id="boxAbout" aria-labelledby="aboutBoxTitle">
         <header class="dash-box-head">
@@ -82,6 +132,65 @@
                     <p class="sec-eyebrow"><b>01</b> — about</p>
                     <h3 class="sec-h disp" id="aboutPreviewTitle"></h3>
                     <div class="about-text" id="aboutPreviewText"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- ══ currently ══ the card next to about; one row, edited like about -->
+    <article class="dash-box rv" id="boxCurrently" aria-labelledby="currentlyBoxTitle">
+        <header class="dash-box-head">
+            <div class="dash-box-id">
+                <span class="dash-box-icon"><i class="bi bi-broadcast"></i></span>
+                <div>
+                    <h2 class="dash-box-title disp" id="currentlyBoxTitle"><span class="dash-box-num">01</span> Currently</h2>
+                    <p class="dash-box-meta" id="currentlyMeta">Loading from the database…</p>
+                </div>
+            </div>
+            <div class="dash-actions">
+                <span class="dash-dirty" id="currentlyDirty" hidden>unsaved changes</span>
+                <button class="btn btn-ghost dash-btn" id="currentlyEdit" type="button" disabled><i class="bi bi-pencil"></i> Edit</button>
+                <button class="btn btn-ghost dash-btn" id="currentlyCancel" type="button" hidden>Cancel</button>
+                <button class="btn btn-glow dash-btn" id="currentlySave" type="button" hidden disabled><i class="bi bi-check2"></i> Save changes</button>
+            </div>
+        </header>
+
+        <div class="dash-box-body">
+            <div class="auth-msg" id="currentlyMsg" role="status"></div>
+
+            <!-- view: the card as the site renders it -->
+            <div class="dash-preview" id="currentlyView">
+                <div class="glass now-card dash-now-card" id="currentlyCard"></div>
+                <p class="dash-hint dash-now-note">Email and phone come from the Contact box.</p>
+            </div>
+
+            <!-- edit: fields on the left, live preview on the right -->
+            <div class="dash-edit" id="currentlyEditor" hidden>
+                <div class="dash-form">
+                    <label class="field">
+                        <span class="field-label">Status <span class="dash-count">row with the dot</span></span>
+                        <input data-currently="status" type="text" maxlength="255" placeholder="open to Werkstudent roles" autocomplete="off">
+                    </label>
+                    <label class="dash-switch">
+                        <input id="currentlyAvailable" type="checkbox">
+                        <span>Available: green pulsing dot (off = grey dot)</span>
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Location</span>
+                        <input data-currently="location" type="text" maxlength="255" placeholder="Darmstadt, Germany" autocomplete="off">
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Degree</span>
+                        <input data-currently="degree" type="text" maxlength="255" placeholder="B.Sc. CS @ TU Darmstadt" autocomplete="off">
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Focus</span>
+                        <input data-currently="focus" type="text" maxlength="255" placeholder="backend · AI · security" autocomplete="off">
+                    </label>
+                </div>
+                <div class="dash-preview is-compact" aria-label="Live preview">
+                    <p class="dash-preview-label"><i class="bi bi-eye"></i> live preview</p>
+                    <div class="glass now-card dash-now-card" id="currentlyPreview"></div>
                 </div>
             </div>
         </div>
@@ -284,6 +393,30 @@
 </template>
 
 <!-- one project's editor; cloned for "Add project" and for each "Edit" -->
+<!-- one chip's editor; cloned for "Add chip" and for each "Edit" -->
+<template id="chipEditorTpl">
+    <div class="dash-chip-slot is-editing">
+        <div class="dash-proj-bar">
+            <span class="dash-proj-label"></span>
+            <div class="dash-actions">
+                <button class="btn btn-ghost dash-btn" data-role="cancel" type="button">Cancel</button>
+                <button class="btn btn-glow dash-btn" data-role="save" type="button" disabled><i class="bi bi-check2"></i> Save changes</button>
+            </div>
+        </div>
+        <div class="auth-msg" data-role="msg" role="status"></div>
+        <label class="field">
+            <span class="field-label">Label <span class="dash-count" data-role="count"></span></span>
+            <input data-field="label" type="text" maxlength="40" placeholder="Spring Boot" autocomplete="off">
+        </label>
+        <label class="field">
+            <span class="field-label">Icon</span>
+            <select data-field="icon" class="dash-select"></select>
+        </label>
+        <p class="dash-preview-label"><i class="bi bi-eye"></i> preview</p>
+        <div class="dash-chip-preview" data-role="preview"></div>
+    </div>
+</template>
+
 <template id="projectEditorTpl">
     <div class="dash-proj-editor">
         <div class="dash-proj-bar">

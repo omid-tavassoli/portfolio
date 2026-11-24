@@ -12,34 +12,19 @@
         if (el.classList.contains('rv')) window.OT.reveal(el);
     }
 
-    function setCount(el, n) {
-        if (+el.dataset.count === n) return;
-        el.dataset.count = n;
-        window.OT.count(el);
-    }
 
     function slug(text) {
         return String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'project';
     }
 
-    function renderAbout(about, contact) {
+    function renderAbout(about, currently, contact) {
         if (about && about.title) {
             renderHeading($('aboutTitle'), about.title);
             renderParagraphs($('aboutText'), about.description || '');
         }
-        if (contact && contact.email) {
-            $('nowEmail').textContent = contact.email;
-            $('nowEmail').href = `mailto:${contact.email}`;
-            $('nowPhone').textContent = contact.phone;
-            $('nowPhone').href = `tel:${contact.phone.replace(/[^\d+]/g, '')}`;
-        }
+        $('nowCard').replaceChildren(...nowCardRows(currently, contact)); // same builder as the dashboard
     }
 
-    function renderStats(projects, skills) {
-        setCount($('statLive'), projects.filter(p => isHttpUrl(p.live_url)).length);
-        setCount($('statProjects'), projects.length);
-        setCount($('statTech'), skills.filter(s => s.header !== 'Languages').length); // spoken languages are not technologies
-    }
 
     function renderSkills(skills) {
         const groups = [];
@@ -154,9 +139,22 @@
         }));
     }
 
+    function renderChips(chips) {
+        $('heroChips').replaceChildren(...chips.map(c => heroChip(c)));
+    }
+
+    // the track holds 4 copies of the words; the CSS animation scrolls half of it, so the loop is seamless
+    function renderMarquee(words) {
+        $('mq').hidden = words.length === 0;
+        const copies = [];
+        for (let i = 0; i < 4; i++) copies.push(...words.map(w => marqueeItem(w.label)));
+        $('mqt').replaceChildren(...copies);
+    }
+
     function render(data) {
-        renderAbout(data.about, data.contact);
-        renderStats(data.projects, data.skills);
+        renderChips(data.chips);
+        renderMarquee(data.marquee);
+        renderAbout(data.about, data.currently, data.contact);
         renderSkills(data.skills);
         renderProjects(data.projects);
         renderJourney(data.journey);

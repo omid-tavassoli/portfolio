@@ -110,33 +110,18 @@ if (!TOUCH && !RM) document.querySelectorAll('.mag').forEach(b => {
     b.addEventListener('mouseleave', () => { b.style.transform = ''; });
 });
 
-/* ── counters ── */
-const cio = new IntersectionObserver(es => es.forEach(en => {
-    if (!en.isIntersecting) return;
-    cio.unobserve(en.target);
-    const el = en.target, target = +el.dataset.count, t0 = performance.now(), dur = 1300;
-    if (RM) { el.textContent = target; return; }
-    (function f(now) {
-        const p = Math.min(1, (now - t0) / dur);
-        el.textContent = Math.round(target * (p < .5 ? 2 * p * p : -1 + (4 - 2 * p) * p));
-        if (p < 1) requestAnimationFrame(f);
-    })(t0);
-}), { threshold: .6 });
-document.querySelectorAll('.cnt').forEach(el => cio.observe(el));
-
 // content.js builds sections from the database after load and wires the new elements with these
 window.OT = {
     reveal: el => io.observe(el),
     tilt: bindTilt,
-    count: el => { cio.unobserve(el); cio.observe(el); }, // (re)play a counter after its data-count changed
 };
 
 /* ── hero chip parallax ── */
 if (!TOUCH && !RM) {
-    const chips = [...document.querySelectorAll('.chip')];
     addEventListener('mousemove', e => {
         const dx = (e.clientX / innerWidth - .5), dy = (e.clientY / innerHeight - .5);
-        chips.forEach((c, i) => {
+        // looked up on each move: the chips are added from the database after load
+        document.querySelectorAll('#heroChips .chip').forEach((c, i) => {
             const depth = 10 + (i % 3) * 8;
             c.style.marginLeft = (dx * depth) + 'px';
             c.style.marginTop = (dy * depth) + 'px';
@@ -144,7 +129,3 @@ if (!TOUCH && !RM) {
     }, { passive: true });
 }
 
-/* ── marquee: duplicate track for seamless loop ── */
-const mqt = document.getElementById('mqt');
-mqt.innerHTML += mqt.innerHTML;
-mqt.innerHTML += mqt.innerHTML;

@@ -13,8 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 try {
     $result = [];
 
+    $chips = new Chips();
+    $result['chips'] = $chips->get();
+
+    $marquee = new Marquee();
+    $result['marquee'] = $marquee->get();
+
     $about = new About();
     $result['about'] = $about->get();
+
+    $currently = new Currently();
+    $result['currently'] = $currently->get();
 
     $skills = new Skills();
     $result['skills'] = $skills->get();

@@ -45,11 +45,8 @@
 
 <!-- ══ hero ══ -->
 <header id="hero">
-    <div class="chip c1"><i class="bi bi-lightning-charge-fill"></i>Spring Boot</div>
-    <div class="chip c2"><i class="bi bi-braces"></i>Next.js</div>
-    <div class="chip c3"><i class="bi bi-database-fill"></i>PostgreSQL</div>
-    <div class="chip c4"><i class="bi bi-box-seam"></i>Docker</div>
-    <div class="chip c5"><i class="bi bi-stars"></i>Gemini API</div>
+    <!-- hero chips from the database (content.js) -->
+    <div id="heroChips"></div>
 
     <div class="wrap">
         <p class="eyebrow rv">⟡ portfolio <b>—</b> est. darmstadt</p>
@@ -73,9 +70,8 @@
 </header>
 
 <!-- ══ marquee ══ -->
-<div class="mq"><div class="mq-track" id="mqt">
-    <span>SPRING BOOT <i>✦</i></span><span>FASTAPI <i>✦</i></span><span>LARAVEL <i>✦</i></span><span>NEXT.JS <i>✦</i></span><span>REACT <i>✦</i></span><span>POSTGRESQL <i>✦</i></span><span>REDIS <i>✦</i></span><span>DOCKER <i>✦</i></span><span>GEMINI API <i>✦</i></span><span>PYTHON <i>✦</i></span><span>JWT <i>✦</i></span><span>RBAC <i>✦</i></span><span>LINUX <i>✦</i></span>
-</div></div>
+<!-- marquee words from the database (content.js) -->
+<div class="mq" id="mq"><div class="mq-track" id="mqt"></div></div>
 
 <main>
 
@@ -87,21 +83,10 @@
         <h2 class="sec-h disp rv" id="aboutTitle"></h2>
         <div class="about-grid">
             <div class="about-text rv rv-l" id="aboutText"></div>
-            <div class="glass now-card tilt rv rv-r" style="--d:.15s">
+            <!-- rows filled from the currently + contact tables (content.js) -->
+            <div class="glass now-card tilt rv rv-r" style="--d:.15s" id="nowCard">
                 <h6>// currently</h6>
-                <div class="now-row"><span class="pulse"></span> <span>open to Werkstudent roles</span></div>
-                <div class="now-row"><i class="bi bi-geo-alt-fill"></i> Darmstadt, Germany</div>
-                <div class="now-row"><i class="bi bi-mortarboard-fill"></i> <span>B.Sc. CS @ TU Darmstadt</span></div>
-                <div class="now-row"><i class="bi bi-cpu-fill"></i> <span>backend · AI · security</span></div>
-                <div class="now-row"><i class="bi bi-envelope-fill"></i> <a id="nowEmail"></a></div>
-                <div class="now-row"><i class="bi bi-telephone-fill"></i> <a id="nowPhone"></a></div>
             </div>
-        </div>
-        <!-- counted from the database by content.js -->
-        <div class="stats">
-            <div class="glass stat rv" style="--d:0s"><b><span class="cnt" id="statLive" data-count="0">0</span></b><span>apps live in production</span></div>
-            <div class="glass stat rv" style="--d:.12s"><b><span class="cnt" id="statProjects" data-count="0">0</span></b><span>projects shipped</span></div>
-            <div class="glass stat rv" style="--d:.24s"><b><span class="cnt" id="statTech" data-count="0">0</span></b><span>technologies</span></div>
         </div>
     </div>
 </section>

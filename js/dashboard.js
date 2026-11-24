@@ -220,6 +220,123 @@ $('aboutSave').addEventListener('click', async () => {
     }
 });
 
+/* ── currently box ── the card next to about; one row, edited like about */
+const CURRENTLY_TEXT = ['status', 'location', 'degree', 'focus'];
+const currentlyInput = name => document.querySelector(`#currentlyEditor [data-currently="${name}"]`);
+
+let currentlySaved = null; // the row as GET currently.php returned it
+let currentlyEditing = false;
+let currentlyMsgTimer;
+
+function currentlyValues() {
+    const v = Object.fromEntries(CURRENTLY_TEXT.map(f => [f, currentlyInput(f).value.trim()]));
+    v.available = $('currentlyAvailable').checked;
+    return v;
+}
+
+function currentlyChanges() {
+    const v = currentlyValues();
+    return Object.fromEntries(Object.keys(v).filter(f => v[f] !== currentlySaved[f]).map(f => [f, v[f]]));
+}
+
+// email + phone rows come from the contact row once the contact box has loaded it
+function renderCurrently() {
+    $('currentlyCard').replaceChildren(...nowCardRows(currentlySaved, contactSaved));
+    $('currentlyMeta').textContent = `Last updated ${formatDbTime(currentlySaved.updated_at)}`;
+}
+
+function renderCurrentlyPreview() {
+    $('currentlyPreview').replaceChildren(...nowCardRows(currentlyValues(), contactSaved));
+}
+
+function updateCurrentlyDirty() {
+    const dirty = currentlyEditing && Object.keys(currentlyChanges()).length > 0;
+    $('currentlyDirty').hidden = !dirty;
+    $('currentlySave').disabled = !dirty;
+}
+
+function setCurrentlyEditing(on) {
+    currentlyEditing = on;
+    $('boxCurrently').classList.toggle('is-editing', on);
+    $('currentlyView').hidden = on;
+    $('currentlyEditor').hidden = !on;
+    $('currentlyEdit').hidden = on;
+    $('currentlyCancel').hidden = !on;
+    $('currentlySave').hidden = !on;
+    if (on) {
+        for (const f of CURRENTLY_TEXT) currentlyInput(f).value = currentlySaved[f];
+        $('currentlyAvailable').checked = currentlySaved.available;
+        renderCurrentlyPreview();
+        currentlyInput('status').focus();
+    }
+    updateCurrentlyDirty();
+}
+
+async function loadCurrently() {
+    try {
+        const { data } = await api('currently.php');
+        if (!data || !data.status) {
+            $('currentlyMeta').textContent = 'No row in the database';
+            $('currentlyView').hidden = true;
+            showMsg($('currentlyMsg'), 'The currently row does not exist in the database yet, so there is nothing to show or edit.', false);
+            return;
+        }
+        currentlySaved = data;
+        renderCurrently();
+        $('currentlyEdit').disabled = false;
+    } catch (err) {
+        $('currentlyMeta').textContent = 'Could not load';
+        $('currentlyView').hidden = true;
+        showMsg($('currentlyMsg'), err.message, false);
+    }
+}
+
+$('currentlyEdit').addEventListener('click', () => {
+    clearMsg($('currentlyMsg'));
+    setCurrentlyEditing(true);
+});
+
+$('currentlyCancel').addEventListener('click', () => {
+    clearMsg($('currentlyMsg'));
+    setCurrentlyEditing(false);
+});
+
+$('currentlyEditor').addEventListener('input', () => {
+    renderCurrentlyPreview();
+    updateCurrentlyDirty();
+});
+
+$('currentlySave').addEventListener('click', async () => {
+    const changes = currentlyChanges();
+    if (!Object.keys(changes).length) return;
+    const empty = CURRENTLY_TEXT.find(f => f in changes && !changes[f]);
+    if (empty) {
+        showMsg($('currentlyMsg'), `${empty[0].toUpperCase() + empty.slice(1)} cannot be empty.`, false);
+        return;
+    }
+
+    clearTimeout(currentlyMsgTimer);
+    clearMsg($('currentlyMsg'));
+    $('currentlySave').disabled = true;
+    $('currentlyCancel').disabled = true;
+    $('currentlySave').innerHTML = '<i class="bi bi-hourglass-split"></i> Saving…';
+
+    try {
+        const { data } = await api('currently.php', { method: 'PATCH', body: JSON.stringify(changes) });
+        currentlySaved = data;
+        renderCurrently();
+        setCurrentlyEditing(false);
+        showMsg($('currentlyMsg'), 'Changes saved.', true);
+        currentlyMsgTimer = setTimeout(() => clearMsg($('currentlyMsg')), 3000);
+    } catch (err) {
+        showMsg($('currentlyMsg'), err.message, false);
+    } finally {
+        $('currentlySave').innerHTML = '<i class="bi bi-check2"></i> Save changes';
+        $('currentlyCancel').disabled = false;
+        updateCurrentlyDirty();
+    }
+});
+
 /* ── skills box ── */
 let skillsSaved = [];             // rows as GET skills.php returned them
 let skillHeaders = [];            // the allowed groups, sent by the API
@@ -852,6 +969,7 @@ function buildContactSection(c) {
 
 function renderContact() {
     $('contactSection').replaceChildren(buildContactSection(contactSaved));
+    if (currentlySaved) renderCurrently(); // the currently card shows the contact email + phone
     const details = [
         ['bi-envelope-fill', contactSaved.email],
         ['bi-telephone-fill', contactSaved.phone],
@@ -978,16 +1096,304 @@ $('contactSave').addEventListener('click', async () => {
     }
 });
 
+/* ── hero chips box ── one card per position; each chip is edited and saved on its own, like projects */
+let chipsSaved = [];      // rows as GET chips.php returned them
+let chipSlots = [];       // the positions (1–5), sent by the API
+let chipEditing = null;   // the one open editor: { slot, el, isDirty }
+let chipsMsgTimer;
+
+function flashChipsMsg(text) {
+    clearTimeout(chipsMsgTimer);
+    showMsg($('chipsMsg'), text, true);
+    chipsMsgTimer = setTimeout(() => clearMsg($('chipsMsg')), 3000);
+}
+
+function renderChipsBox() {
+    const grid = $('chipsGrid');
+    grid.textContent = '';
+    for (const slot of chipSlots) {
+        if (chipEditing && chipEditing.slot === slot) {
+            grid.append(chipEditing.el);
+            continue;
+        }
+        const chip = chipsSaved.find(c => +c.slot === slot);
+        const card = make('div', 'dash-chip-slot');
+        const bar = make('div', 'dash-proj-bar');
+        const actions = make('div', 'dash-actions');
+        if (chip) {
+            const edit = makeButton('btn btn-ghost dash-btn', '<i class="bi bi-pencil"></i> Edit', () => openChipEditor(slot, chip));
+            const del = makeButton('btn btn-ghost dash-btn is-danger', '<i class="bi bi-trash3"></i>', () => deleteChip(chip, del));
+            del.setAttribute('aria-label', `Delete chip ${chip.label}`);
+            edit.disabled = del.disabled = chipEditing !== null; // one chip at a time
+            actions.append(edit, del);
+        } else {
+            const add = makeButton('btn btn-ghost dash-btn', '<i class="bi bi-plus-lg"></i> Add chip', () => openChipEditor(slot, null));
+            add.disabled = chipEditing !== null;
+            actions.append(add);
+        }
+        bar.append(make('span', 'dash-proj-label', `Position ${slot}`), actions);
+        card.append(bar, chip ? heroChip(chip, false) : make('p', 'dash-placeholder', 'Empty, no chip at this position.'));
+        grid.append(card);
+    }
+    $('chipsMeta').textContent = `${chipsSaved.length} of ${chipSlots.length} positions used`;
+}
+
+// chip = the saved chip at this slot, or null to add one
+function openChipEditor(slot, chip) {
+    clearMsg($('chipsMsg'));
+    const node = $('chipEditorTpl').content.firstElementChild.cloneNode(true);
+    const field = name => node.querySelector(`[data-field="${name}"]`);
+    const role = name => node.querySelector(`[data-role="${name}"]`);
+
+    const icons = [...CHIP_ICONS];
+    if (chip && !icons.some(([cls]) => cls === chip.icon)) icons.unshift([chip.icon, chip.icon]); // keep an icon set outside the list
+    field('icon').append(...icons.map(([cls, name]) => new Option(name, cls)));
+    const saved = { label: chip ? chip.label : '', icon: chip ? chip.icon : icons[0][0] };
+    field('label').value = saved.label;
+    field('icon').value = saved.icon;
+    node.querySelector('.dash-proj-label').textContent = chip ? `Position ${slot}: editing` : `Position ${slot}: new chip`;
+
+    const values = () => ({ label: field('label').value.trim(), icon: field('icon').value });
+    const changes = () => {
+        const v = values();
+        return Object.fromEntries(Object.keys(v).filter(k => v[k] !== saved[k]).map(k => [k, v[k]]));
+    };
+    const isDirty = () => Object.keys(changes()).length > 0;
+    const refresh = () => {
+        const v = values();
+        role('save').disabled = !isDirty();
+        role('count').textContent = `${v.label.length}/40`;
+        role('preview').replaceChildren(heroChip({ ...v, label: v.label || 'Label', slot }, false));
+    };
+    node.addEventListener('input', refresh);
+    node.addEventListener('change', refresh);
+
+    role('cancel').addEventListener('click', () => {
+        chipEditing = null;
+        renderChipsBox();
+    });
+
+    role('save').addEventListener('click', async () => {
+        clearMsg(role('msg'));
+        const v = values();
+        if (!v.label) {
+            showMsg(role('msg'), 'The label cannot be empty.', false);
+            return;
+        }
+        // a new chip sends everything; an edit sends only what changed
+        const body = chip ? { id: chip.id, ...changes() } : { slot, ...v };
+        role('save').disabled = role('cancel').disabled = true;
+        role('save').innerHTML = '<i class="bi bi-hourglass-split"></i> Saving…';
+        try {
+            const { data } = await api('chips.php', { method: chip ? 'PATCH' : 'POST', body: JSON.stringify(body) });
+            chipsSaved = [...chipsSaved.filter(c => c.id !== data.id), data].sort((a, b) => a.slot - b.slot);
+            chipEditing = null;
+            renderChipsBox();
+            flashChipsMsg(chip ? `"${data.label}" saved.` : `"${data.label}" added at position ${slot}.`);
+        } catch (err) {
+            showMsg(role('msg'), err.message, false);
+            role('cancel').disabled = false;
+            role('save').innerHTML = '<i class="bi bi-check2"></i> Save changes';
+            refresh();
+        }
+    });
+
+    chipEditing = { slot, el: node, isDirty };
+    renderChipsBox();
+    refresh();
+    field('label').focus();
+}
+
+async function deleteChip(chip, btn) {
+    if (!confirm(`Delete the chip "${chip.label}"? Its position will stay empty.`)) return;
+    clearMsg($('chipsMsg'));
+    btn.disabled = true;
+    try {
+        await api('chips.php', { method: 'DELETE', body: JSON.stringify({ id: chip.id }) });
+        chipsSaved = chipsSaved.filter(c => c.id !== chip.id);
+        renderChipsBox();
+        flashChipsMsg(`"${chip.label}" deleted.`);
+    } catch (err) {
+        showMsg($('chipsMsg'), err.message, false);
+        loadChips(); // show what the database really has now
+    }
+}
+
+async function loadChips() {
+    try {
+        const res = await api('chips.php');
+        chipsSaved = res.data;
+        chipSlots = res.slots;
+        renderChipsBox();
+    } catch (err) {
+        $('chipsMeta').textContent = 'Could not load';
+        showMsg($('chipsMsg'), err.message, false);
+    }
+}
+
+/* ── marquee box ── words are added and deleted, like skills */
+let marqueeSaved = [];              // rows as GET marquee.php returned them
+let marqueeEditing = false;
+const marqueeToDelete = new Set();  // ids of saved words marked for removal
+let marqueeToAdd = [];              // labels not saved yet
+let marqueeMsgTimer;
+
+const marqueeDirty = () => marqueeToDelete.size > 0 || marqueeToAdd.length > 0;
+
+function renderMarqueeBox() {
+    const list = $('marqueeList');
+    list.textContent = '';
+    if (!marqueeEditing) {
+        list.append(...marqueeSaved.map(w => marqueeItem(w.label))); // as on the site, without scrolling
+    } else {
+        for (const w of marqueeSaved) {
+            const removed = marqueeToDelete.has(w.id);
+            list.append(skillPill(w.label, removed ? 'is-removed' : '', () => {
+                if (removed) marqueeToDelete.delete(w.id);
+                else marqueeToDelete.add(w.id);
+                marqueeChanged();
+            }, removed ? 'Keep' : 'Delete', removed ? 'bi-arrow-counterclockwise' : 'bi-x-lg'));
+        }
+        for (const label of marqueeToAdd) {
+            list.append(skillPill(label, 'is-new', () => {
+                marqueeToAdd = marqueeToAdd.filter(l => l !== label);
+                marqueeChanged();
+            }, 'Remove', 'bi-x-lg'));
+        }
+    }
+    if (!marqueeSaved.length && !marqueeToAdd.length) {
+        list.append(make('p', 'dash-placeholder', 'No words yet, so the strip is hidden on the site.'));
+    }
+    $('marqueeMeta').textContent = `${marqueeSaved.length} word${marqueeSaved.length === 1 ? '' : 's'}`;
+}
+
+function marqueeChanged() {
+    $('marqueeDirty').hidden = !marqueeDirty();
+    $('marqueeSave').disabled = !marqueeDirty();
+    renderMarqueeBox();
+}
+
+function setMarqueeEditing(on) {
+    marqueeEditing = on;
+    marqueeToDelete.clear();
+    marqueeToAdd = [];
+    $('boxMarquee').classList.toggle('is-editing', on);
+    $('marqueeAddForm').hidden = !on;
+    $('marqueeEdit').hidden = on;
+    $('marqueeCancel').hidden = !on;
+    $('marqueeSave').hidden = !on;
+    $('marqueeInput').value = '';
+    marqueeChanged();
+}
+
+async function loadMarquee() {
+    try {
+        marqueeSaved = (await api('marquee.php')).data;
+        renderMarqueeBox();
+        $('marqueeEdit').disabled = false;
+    } catch (err) {
+        $('marqueeMeta').textContent = 'Could not load';
+        showMsg($('marqueeMsg'), err.message, false);
+    }
+}
+
+$('marqueeEdit').addEventListener('click', () => {
+    clearMsg($('marqueeMsg'));
+    setMarqueeEditing(true);
+    $('marqueeInput').focus();
+});
+
+$('marqueeCancel').addEventListener('click', () => {
+    clearMsg($('marqueeMsg'));
+    setMarqueeEditing(false);
+});
+
+$('marqueeAddForm').addEventListener('submit', e => {
+    e.preventDefault();
+    clearMsg($('marqueeMsg'));
+    const label = $('marqueeInput').value.trim();
+    if (!label) {
+        showMsg($('marqueeMsg'), 'Type a word first.', false);
+        return;
+    }
+    const existing = marqueeSaved.find(w => sameText(w.label, label));
+    if (existing && marqueeToDelete.has(existing.id)) {
+        marqueeToDelete.delete(existing.id); // adding back a word marked for removal just keeps it
+    } else if (existing || marqueeToAdd.some(l => sameText(l, label))) {
+        showMsg($('marqueeMsg'), `"${label}" is already in the marquee.`, false);
+        return;
+    } else {
+        marqueeToAdd.push(label);
+    }
+    $('marqueeInput').value = '';
+    $('marqueeInput').focus();
+    marqueeChanged();
+});
+
+$('marqueeSave').addEventListener('click', async () => {
+    if (!marqueeDirty()) return;
+    clearTimeout(marqueeMsgTimer);
+    clearMsg($('marqueeMsg'));
+    $('marqueeSave').disabled = true;
+    $('marqueeCancel').disabled = true;
+    $('marqueeSave').innerHTML = '<i class="bi bi-hourglass-split"></i> Saving…';
+
+    // one request per change; whatever fails stays pending so it can be retried
+    const failed = [];
+    let removed = 0, added = 0;
+    for (const w of marqueeSaved.filter(w => marqueeToDelete.has(w.id))) {
+        try {
+            await api('marquee.php', { method: 'DELETE', body: JSON.stringify({ id: w.id }) });
+            marqueeToDelete.delete(w.id);
+            removed++;
+        } catch (err) {
+            failed.push(`Could not delete "${w.label}": ${err.message}`);
+        }
+    }
+    for (const label of [...marqueeToAdd]) {
+        try {
+            await api('marquee.php', { method: 'POST', body: JSON.stringify({ label }) });
+            marqueeToAdd = marqueeToAdd.filter(l => l !== label);
+            added++;
+        } catch (err) {
+            failed.push(`Could not add "${label}": ${err.message}`);
+        }
+    }
+
+    try {
+        marqueeSaved = (await api('marquee.php')).data;
+    } catch { /* keep the old list; the error below still explains what happened */ }
+
+    $('marqueeSave').innerHTML = '<i class="bi bi-check2"></i> Save changes';
+    $('marqueeCancel').disabled = false;
+
+    if (failed.length) {
+        marqueeChanged();
+        showMsg($('marqueeMsg'), failed.join(' '), false);
+        return;
+    }
+    setMarqueeEditing(false);
+    const parts = [added && `${added} added`, removed && `${removed} deleted`].filter(Boolean);
+    showMsg($('marqueeMsg'), `Changes saved: ${parts.join(', ')}.`, true);
+    marqueeMsgTimer = setTimeout(() => clearMsg($('marqueeMsg')), 3000);
+});
+
 // warn before leaving the page with unsaved edits
 addEventListener('beforeunload', e => {
     const aboutDirty = aboutEditing && aboutSaved && Object.keys(aboutChanges()).length;
     const projectDirty = projectEditing && projectEditing.isDirty();
     const journeyDirty = journeyEditing && journeyEditing.isDirty();
     const contactDirty = contactEditing && contactSaved && Object.keys(contactChanges()).length;
-    if (aboutDirty || (skillsEditing && skillsDirty()) || projectDirty || journeyDirty || contactDirty) e.preventDefault();
+    const currentlyDirty = currentlyEditing && currentlySaved && Object.keys(currentlyChanges()).length;
+    const chipDirty = chipEditing && chipEditing.isDirty();
+    if (aboutDirty || currentlyDirty || (skillsEditing && skillsDirty()) || projectDirty || journeyDirty || contactDirty
+        || chipDirty || (marqueeEditing && marqueeDirty())) e.preventDefault();
 });
 
+loadChips();
+loadMarquee();
 loadAbout();
+loadCurrently();
 loadSkills();
 loadProjects();
 loadJourney();

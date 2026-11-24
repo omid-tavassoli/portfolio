@@ -11,6 +11,23 @@ INSERT INTO about (id, title, description) VALUES (
     'Computer Science student (B.Sc.) at TU Darmstadt, expected to graduate in autumn 2027, followed by a Master''s with a focus on AI. Backend developer focused on Java/Spring Boot and PHP/Laravel: I designed, built and operate two production web applications entirely on my own — from the data model and REST API through JWT/RBAC authentication to Docker deployment on my own Linux server. Plus one year of hands-on experience with AI systems (LangChain agents, PyTorch) from two project internships with Fraunhofer SIT and [ui!]. Available immediately, 20 hours per week.'
 );
 
+-- currently: single row, id = 1 (the "// currently" card next to about)
+INSERT INTO currently (id, status, available, location, degree, focus) VALUES
+    (1, 'open to Werkstudent roles', TRUE, 'Darmstadt, Germany', 'B.Sc. CS @ TU Darmstadt', 'backend · AI · security');
+
+-- hero chips (slot = one of the 5 positions around the name)
+INSERT INTO chips (slot, label, icon) VALUES
+    (1, 'Spring Boot', 'bi-lightning-charge-fill'),
+    (2, 'Next.js', 'bi-braces'),
+    (3, 'PostgreSQL', 'bi-database-fill'),
+    (4, 'Docker', 'bi-box-seam'),
+    (5, 'Gemini API', 'bi-stars');
+
+-- marquee words
+INSERT INTO marquee (label) VALUES
+    ('Spring Boot'), ('FastAPI'), ('Laravel'), ('Next.js'), ('React'), ('PostgreSQL'), ('Redis'),
+    ('Docker'), ('Gemini API'), ('Python'), ('JWT'), ('RBAC'), ('Linux');
+
 -- contact: single row, id = 1
 INSERT INTO contact (id, header, email, phone, github_url, linkedin_url, description) VALUES (
     1,
